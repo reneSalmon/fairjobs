@@ -1,1 +1,1 @@
- web: sh setup.sh && streamlit run jobfair-web.py
+ web: sh setup.sh && streamlit run fairjobs-web.py
