@@ -28,3 +28,14 @@ joblib
 memoized-property
 termcolor
 streamlit
+
+# Scrapping
+bs4
+requests
+
+# NLP
+gensim
+string
+unidecode
+nltk
+re
