@@ -39,9 +39,9 @@ def syn_dict_list(Criterias):
     syn_list=[]
     model_wiki=model_build("glove-wiki-gigaword-300") # using glove-wiki-gigaword-300
     for word in Criterias:
-        syn_list=synonyms(word)
+        syn_list=synonyms(word)+[word]
         if word in model_wiki.key_to_index.keys():
-            syn_list+=[x[0] for x in model_wiki.most_similar(word)]+[word]
+            syn_list+=[x[0] for x in model_wiki.most_similar(word)]
         syn_dict[word]=[x for x in set(syn_list)]
     return syn_dict #potential TODO: return only single common root for word with similar common roon
 
