@@ -37,4 +37,3 @@ requests
 gensim
 unidecode
 nltk
-re
