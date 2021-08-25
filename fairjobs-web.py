@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 
+
+
 '''
 # fairjobs - job search engine
 '''
@@ -54,20 +56,3 @@ df = pd.DataFrame({
 })
 
 st.table(df.head())
-
-
-# Connect to a database Google Big Querry Database
-
-# .streamlit/secrets.toml
-
-[gcp_service_account]
-type = "service_account"
-project_id = "xxx"
-private_key_id = "xxx"
-private_key = "xxx"
-client_email = "xxx"
-client_id = "xxx"
-auth_uri = "https://accounts.google.com/o/oauth2/auth"
-token_uri = "https://oauth2.googleapis.com/token"
-auth_provider_x509_cert_url = "https://www.googleapis.com/oauth2/v1/certs"
-client_x509_cert_url = "xxx"
