@@ -35,7 +35,6 @@ requests
 
 # NLP
 gensim
-string
 unidecode
 nltk
 re
