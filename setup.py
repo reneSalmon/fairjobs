@@ -15,3 +15,4 @@ setup(name='project_name',
       include_package_data=True,
       scripts=['scripts/project_name-run'],
       zip_safe=False)
+
