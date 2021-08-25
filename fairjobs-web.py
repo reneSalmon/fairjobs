@@ -9,10 +9,7 @@ import numpy as np
 '''
 
 # Search field
-title = st.text_input('Enter a jobtitel or company')
-
-# Search field
-title = st.text_input('Enter where you want to work')
+title = st.text_input('Enter a jobtitel')
 
 # Search Button
 if st.button('search'):
