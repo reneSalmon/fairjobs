@@ -29,6 +29,9 @@ memoized-property
 termcolor
 streamlit
 
+# requirements.txt
+google-cloud-bigquery==x.x.x
+
 # Scrapping
 bs4
 requests
@@ -39,3 +42,4 @@ string
 unidecode
 nltk
 re
+
