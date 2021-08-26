@@ -14,6 +14,13 @@ class BaseModel(object):
                                              min_count=1)
         return self
 
+    def save_model(self):
+        return self.word2vec_description.save("../word2vec.model")
+
+    def load_model(self):
+        self.word2vec_description = Word2Vec.load("../word2vec.model")
+        return self.word2vec_description
+
     def masc_similar_words(self, text):
         # simil_masc_vocab = []
         # match_masc_vocab = []
@@ -72,6 +79,9 @@ if __name__ == '__main__':
     df_clean = data.clean_df(df)
     print(df_clean.columns)
     model = BaseModel(df_clean)
-    model.word2vec()
+    # model.word2vec()
+    # model.save_model()
+    model.load_model()
     model.masc_fem_words()
-    print(model.df)
+    model.data.to_csv('../basemodel_df.csv', encoding='utf-8')
+    print(model.data)
