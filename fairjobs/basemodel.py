@@ -74,6 +74,9 @@ class BaseModel(object):
         self.df = self.df.round(2)*100
         return self.df
 
+    def df_to_csv(self):
+        self.df.to_csv('../basemodel_df_22000.csv', encoding='utf-8')
+
 if __name__ == '__main__':
     df = data.get_data()
     df_clean = data.clean_df(df)
@@ -81,7 +84,7 @@ if __name__ == '__main__':
     model = BaseModel(df_clean)
     # model.word2vec()
     # model.save_model()
-    # model.load_model()
-    # model.masc_fem_words()
-    model.df.to_csv('../basemodel_df.csv', encoding='utf-8')
+    model.load_model()
+    model.masc_fem_words()
+    model.df_to_csv()
     print(model.df)
