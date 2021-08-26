@@ -20,6 +20,12 @@ Criterias=["remote work",
              "gender",
              "support"]
 
+# Anita's customized criterias dictionary: 
+anita_dict={"company culture":["supportive", "collaborative", "team", "values", "culture"],
+            "inclusivity": ["transparent", "fair", "open", "inclusive", "equa"],
+            "family benefits" :["family", "children", "healthcare", "home", "part time", "flexibel", "balance", "vacation"," maternity leave"],
+            "development": ["development", "growth", "learning", "training"]}
+
 # loading a Word2Vec, other possibilities are:
 # print(list(gensim.downloader.info()['models'].keys()))
 def model_build(w2vec_model):
@@ -50,6 +56,15 @@ def count_sup(description, dict_list):
     count_support=len([x for x in dict_list if x in description])
     return count_support
 
+# count occurences of criteria and related terms in descriptions and categorize right away
+def count_sup_cat(description, dict_list):
+    count_support=len([x for x in dict_list if x in description])
+    if count_support ==0:
+      return "None"
+    if count_support <3:
+      return "Few"
+    return "Lot"
+
 # Cleaning function that should be imported elsewhere
 def clean (text):    
     text_urless=re.sub(r"(https?:\/\/)(\s)*(www\.)?(\s)*((\w|\s)+\.)*([\w\-\s]+\/)*([\w\-]+)((\?)?[\w\s]*=\s*[\w\%&]*)*", '', text)
@@ -71,3 +86,13 @@ def building_features(df):
     for x in syn_dict.keys():
         dict_list=syn_dict[x]        
         df[f"{x}"]=df["clean_description"].apply(count_sup, args=([dict_list])) 
+
+# Building feature columns with Anita's dict: 
+def building_features_anita(df):
+    df["clean_description"]=df["job_description"].apply(clean)
+    for x in anita_dict.keys():
+        dict_list=anita_dict[x]        
+        df[f"{x}"]=df["clean_description"].apply(count_sup_cat, args=([dict_list])) 
+
+
+
