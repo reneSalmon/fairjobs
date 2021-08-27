@@ -1,12 +1,18 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-
-
+import re
+import string
+import requests
+from PIL import Image
 
 '''
 # fairjobs - job search engine
 '''
+
+#Add fairjob logo as picture
+#image = Image.open('sunrise.jpg')
+#st.image(image, caption='Sunrise by the mountains')
 
 # Search field
 search_word = st.text_input('Enter a jobtitel')
@@ -20,7 +26,9 @@ if st.button('search'):
     ### SEARCH ENGINE ###
 
     #Import monster job_database to access job_offers
-    job_database = pd.read_csv('raw_data/monster_com-job_sample_3.csv')
+    job_database = pd.read_csv(
+        'raw_data/basemodel_crit.csv'
+    )
 
     #Clean job_title column
     job_title = job_database['job_title']
@@ -52,7 +60,7 @@ if st.button('search'):
     # Remove Mentions
     clean_search_word = re.sub(r'@\w+', '', clean_search_word)
     # Lowercase the document
-    clean_search_word = document_test.lower()
+    clean_search_word = clean_search_word.lower()
     # Remove punctuations
     clean_search_word = re.sub(r'[%s]' % re.escape(string.punctuation), ' ',
                         clean_search_word)
@@ -62,52 +70,82 @@ if st.button('search'):
     clean_search_word = re.sub(r'\s{2,}', ' ', clean_search_word)
     print(clean_search_word)
 
-    # Search Function
+    # Search function
     matched_titels = job_database['searchable_jobtitles'] == clean_search_word
 
-    # print dataframe
-    job_database[matched_titels]
+    # print dataframe 1
+    job_list = job_database[matched_titels]
 
-'''
-personalize your search
-'''
+    st.dataframe(job_list[[
+        'job_title', 'gender', 'company culture', 'inclusivity',
+        'family benefits', 'Personal development',
+    ]])
+
+    # print dataframe 2
+
+    st.write("Personalize your search results")
+
+    # Personalizer Sliderbars
+    #st.beta_expander
+    company_culture = st.slider('How important is the company culture to you?', 1, 10)
+    inclusivity = st.slider('How important is inclusivity to you?', 1, 10)
+    family_benefits = st.slider('How important are family benefits to you?', 1, 10)
+    personal_development = st.slider('How important is personal development to you?', 1, 10)
+
+    job_database["Relevance Score"]= round( 100 * (company_culture*job_database["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                    inclusivity*job_database["inclusivity"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                    family_benefits*job_database["family benefits"].apply(lambda x: 1 if x=="Good" else 0)+ \
+                                    personal_development*job_database["Personal development"].apply(lambda x: 1 if x=="Good" else 0)) / (company_culture+inclusivity+family_benefits+personal_development) ,2 )
+
+#my_expander = st.beta_expander()
+#my_expander.write('Hello there!')
+#clicked = my_expander.button('Click me!')
+
+#df = pd.DataFrame({
+#       'job':[job_database[matched_titels]['job_title']]
+# 'Company': ['Google', 'Tesla', 'Facebook', 'Volkswagen'],
+# 'Rating': ['4 stars', '3 stars', '5 stars', '3 stars'],
+# 'Tone': ['female', 'male', 'neutral', 'female'],
+# 'City': ['London', 'Hamburg', 'Dublin', 'Paris'],
+# 'Relevance Score': ['90%', '75%', '60%', '43%']
+# })
+#df = pd.DataFrame(np.random.randn(3, 5),
+#                  columns=['Job', 'Company', 'City', 'Tone','Matching Score'])
+
+#st.table(df.head())
+
 
 # Filter
-if st.checkbox('Filter 1'):
-    st.write('active')
+#if st.checkbox('Filter 1'):
+#    st.write('active')
 
-if st.checkbox('Filter 2'):
-    st.write('active')
+#if st.checkbox('Filter 2'):
+#    st.write('active')
 
-if st.checkbox('Filter 3'):
-    st.write('active')
+#if st.checkbox('Filter 3'):
+#    st.write('active')
 
-if st.checkbox('Filter 4'):
-    st.write('active')
+#if st.checkbox('Filter 4'):
+#    st.write('active')
 
-if st.checkbox('Filter 5'):
-    st.write('active')
+#if st.checkbox('Filter 5'):
+#    st.write('active')
 
 # Display search results
 
-#df = pd.DataFrame(np.random.randn(3, 5),
+#df = pd.DataFrame(job_database[matched_titels]),
 #                  columns=['Job', 'Company', 'City', 'Tone','Matching Score'])
-st.write("Job search results")
-df = pd.DataFrame({
-    'Job':
-    ['Data Scientist', 'Data Scientist', 'Data Engineer', 'Data Analyst'],
-    'Company': ['Google', 'Tesla', 'Facebook', 'Volkswagen'],
-    'Rating': ['4 stars', '3 stars', '5 stars', '3 stars'],
-    'Tone': ['female', 'male', 'neutral', 'female'],
-    'City': ['London', 'Hamburg', 'Dublin', 'Paris'],
-    'Relevance Score': ['90%', '75%', '60%', '43%']
-})
-
-st.table(df.head())
-
 
 #Create output dataframe
 
 #Create markdown Toogle to see job describtion
 
 #Add Css for color coding for filter words
+
+
+# or using the score directly
+#job_database["Relevance Score_score"]= round( 100 * (company_culture*job_database["company culture_score"] + \
+#                                  inclusivity*job_database["inclusivity_score"] + \
+ #                                 family_benefits*job_database["family benefits_score"] + \
+  #                                personal_development*job_database["Personal development_score"] ) \
+   #                             / (company_culture+inclusivity+family_benefits+personal_development),2)
