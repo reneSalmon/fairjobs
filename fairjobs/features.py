@@ -21,10 +21,11 @@ Criterias=["remote work",
              "support"]
 
 # Anita's customized criterias dictionary: 
-anita_dict={"company culture":["supportive", "collaborative", "team", "values", "culture"],
-            "inclusivity": ["transparent", "fair", "open", "inclusive", "equa"],
-            "family benefits" :["family", "children", "healthcare", "home", "part time", "flexibel", "balance", "vacation"," maternity leave"],
-            "development": ["development", "growth", "learning", "training"]}
+# TODO move to parameters file
+anita_dict={"Company culture":["supportive", "collaborative", "team", "values", "culture"],
+            "Inclusivity": ["transparent", "fair", "open", "inclusive", "equa"],
+            "Family benefits" :["family", "children", "healthcare", "home", "part time", "flexibel", "balance", "vacation"," maternity leave"],
+            "Personal development": ["development", "growth", "learning", "training"]}
 
 # loading a Word2Vec, other possibilities are:
 # print(list(gensim.downloader.info()['models'].keys()))
@@ -65,7 +66,38 @@ def count_sup_cat(description, dict_list):
       return "Few"
     return "Lot"
 
+# count occurences of criteria and related terms in descriptions and categorize right away as bool
+def count_sup_cat_bool(description, dict_list):
+    count_support=len([x for x in dict_list if x in description])
+    if count_support ==0:
+      return "None"
+    return "Yes"
+
+# Score criterias avalability 
+# Be careful, only works while using my cleaning description function which return a single string
+def proper_count_sup(description, dict_list):
+      count_support=[]
+      for y in dict_list:
+        test_list1=[u for u in  description.split() if y in u ] 
+        count_support.append(len(test_list1))
+      if sum(count_support)/len(dict_list)<1:
+        return sum(count_support)/len(dict_list)
+      return 1
+
+# count occurences of criteria and related terms in descriptions
+# Be careful, only works while using my cleaning description function which return a single string
+def proper_count_sup_rene(description, dict_list):
+      count_support=[]
+      for y in dict_list:
+        test_list1=[u for u in description.split() if y in u ] 
+        count_support.append(len(test_list1))
+      if sum(count_support)>0:
+        return 'Good'
+      return 'Bad'
+
 # Cleaning function that should be imported elsewhere
+# Be careful, this is my version which returns a single string
+# careful as well, it does not seem to play nicely while exporting to csv
 def clean (text):    
     text_urless=re.sub(r"(https?:\/\/)(\s)*(www\.)?(\s)*((\w|\s)+\.)*([\w\-\s]+\/)*([\w\-]+)((\?)?[\w\s]*=\s*[\w\%&]*)*", '', text)
     for punctuation in string.punctuation:
@@ -77,7 +109,6 @@ def clean (text):
         stop_words = set(stopwords.words('english')) # Make stopword list    
         without_stopwords = [word for word in words_only if not word in stop_words] # Remove Stop Words    
     return " ".join(without_stopwords)
-
 
 # Building features columns
 def building_features(df):
@@ -94,5 +125,33 @@ def building_features_anita(df):
         dict_list=anita_dict[x]        
         df[f"{x}"]=df["clean_description"].apply(count_sup_cat, args=([dict_list])) 
 
+# Using Anita's proposed scoring function which returns a float if under 1 or 1
+def building_features_w_AnitaScore(df):
+    for x in anita_dict.keys():
+        dict_list=anita_dict[x]        
+        df[f"{x}_score"]=df["clean_description"].apply(proper_count_sup, args=([dict_list]))      
 
+# Function to return good or bad if criterias are found or not according to René formating suggestion
+def building_features_rene(df):
+    for x in anita_dict.keys():
+        dict_list=anita_dict[x]        
+        df[f"{x}"]=df["clean_description"].apply(proper_count_sup_rene, args=([dict_list]))         
+
+# Function to make a compound score with the criterias matching
+# Assuming the dataframe is named basemodel (but to be changed with the name you are giving it)
+def calc_rel_score(df, var1, var2, var3, var4):
+    df["Relevance Score"]= round( 100 * ( var1*df["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                    var2*df["inclusivity"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                    var3*df["family benefits"].apply(lambda x: 1 if x=="Good" else 0)+ \
+                                    var4*df["Personal development"].apply(lambda x: 1 if x=="Good" else 0)) \
+                                        / (var1 + var2 + var3 + var4) ,2 ) 
+    
+# Function to make a compound score with the criterias matching
+# Using the score columns directly
+def calc_rel_score_direct(df, var1, var2, var3, var4):
+    df["Relevance Score_score"]= round( 100 * ( var1*df["company culture_score"] + \
+                                    var2*df["inclusivity_score"] + \
+                                    var3*df["family benefits_score"] + \
+                                    var4*df["Personal development_score"] ) \
+                                    / (var1+var2+var3+var4),2)
 
