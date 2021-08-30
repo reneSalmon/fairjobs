@@ -1,7 +1,7 @@
 from gensim.models import Word2Vec
 import data
 from vocabulary import masc_vocab, fem_vocab
-from extend import final_fem_vocab, final_masc_vocab
+import pickle
 
 class BaseModel(object):
 
@@ -67,6 +67,10 @@ class BaseModel(object):
     #     return (n_simil_fem + n_match_fem)
 
     def fem_words(self, text):
+        fh = open("../vocab_fem.pkl", 'rb')
+        final_fem_vocab = pickle.load(fh)
+        fh.close()
+
         n_fem_words = 0
         for word in text:
             if word in final_fem_vocab:
@@ -74,22 +78,16 @@ class BaseModel(object):
         return n_fem_words
 
     def masc_words(self, text):
+        fh = open("../vocab_masc.pkl", 'rb')
+        final_masc_vocab = pickle.load(fh)
+        fh.close()
+
         n_masc_words = 0
         for word in text:
+            print(word)
             if word in final_masc_vocab:
                 n_masc_words += 1
         return n_masc_words
-
-    def masc_fem_words(self):
-        self.df['masc_words'] = self.df['clean_description'].apply(self.masc_words)
-        self.df['fem_words'] = self.df['clean_description'].apply(self.fem_words)
-        self.df['masc_coded'] = self.df['masc_words']/(self.df['masc_words'] +
-                                                       self.df['fem_words'] + 0.001)
-        self.df['fem_coded'] = self.df['fem_words']/(self.df['masc_words']
-                                                     + self.df['fem_words'] + 0.001)
-        self.df = self.df.round(2)*100
-        # self.df['gender'] = self.df.apply (lambda row: self.label_gender(row), axis=1)
-        return self.df
 
     def label_gender (row):
         if row['fem_words'] > row['masc_words'] :
@@ -99,6 +97,20 @@ class BaseModel(object):
         else:
             return 'neutral'
 
+    def masc_fem_words(self):
+        print('start')
+        self.df['masc_words'] = self.df['clean_description'].apply(self.masc_words)
+        print('masc')
+        self.df['fem_words'] = self.df['clean_description'].apply(self.fem_words)
+        print('fem')
+        self.df['masc_coded'] = self.df['masc_words']/(self.df['masc_words'] +
+                                                       self.df['fem_words'] + 0.001)
+        self.df['fem_coded'] = self.df['fem_words']/(self.df['masc_words']
+                                                     + self.df['fem_words'] + 0.001)
+        self.df = self.df.round(2)*100
+        self.df['gender'] = self.df.apply (lambda row: self.label_gender(row), axis=1)
+        return self.df
+
     def df_to_csv(self):
         self.df.to_csv('../basemodel_df_22000.csv', encoding='utf-8')
 
@@ -107,9 +119,11 @@ if __name__ == '__main__':
     df_clean = data.clean_df(df)
     print(df_clean.columns)
     model = BaseModel(df_clean)
+    print(model)
     # model.word2vec()
     # model.save_model()
     # model.load_model()
     model.masc_fem_words()
+    print(model.df)
     model.df_to_csv()
     print(model.df)

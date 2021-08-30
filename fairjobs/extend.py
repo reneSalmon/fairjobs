@@ -1,6 +1,7 @@
 import gensim.downloader
 from nltk.stem import PorterStemmer
 from vocabulary import fem_vocab, masc_vocab
+import pickle
 
 glove_wiki_vectors = gensim.downloader.load('glove-wiki-gigaword-100')
 ps = PorterStemmer()
@@ -42,8 +43,17 @@ class ExtendVocabulary():
 vocabulary = ExtendVocabulary()
 extended_fem_vocab = vocabulary.extend_vocab(fem_vocab)
 extended_masc_vocab = vocabulary.extend_vocab(masc_vocab)
-final_fem_vocab = vocabulary.rm_overlap_words(fem_vocab, extended_masc_vocab)
-final_masc_vocab = vocabulary.rm_overlap_words(masc_vocab, extended_fem_vocab)
+
+final_masc_vocab = vocabulary.rm_overlap_words(fem_vocab, extended_masc_vocab)
+final_fem_vocab = vocabulary.rm_overlap_words(masc_vocab, extended_fem_vocab)
+
+fh = open("../vocab_fem.pkl", 'wb')
+pickle.dump(final_fem_vocab, fh)
+fh.close()
+
+fh = open("../vocab_masc.pkl", 'wb')
+pickle.dump(final_masc_vocab, fh)
+fh.close()
 
 if __name__ == '__main__':
     print(len(final_fem_vocab), final_fem_vocab)
