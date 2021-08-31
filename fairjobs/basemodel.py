@@ -29,9 +29,9 @@ class BaseModel(object):
         return n_masc_words
 
     def label_gender(self, row):
-        if row['fem_coded'] > 55 :
+        if row['fem_coded'] > 52 :
             return 'feminine'
-        elif row['fem_coded'] < 45:
+        elif row['fem_coded'] < 48:
             return 'masculine'
         else:
             return 'neutral'
@@ -51,7 +51,7 @@ class BaseModel(object):
         return self.df
 
     def df_to_csv(self):
-        self.df.to_csv('../raw_data/basemodel_df_new.csv', encoding='utf-8')
+        self.df.to_csv('../raw_data/data_2021-31-08-cleaned_newds_gd.csv', encoding='utf-8')
 
 if __name__ == '__main__':
     df = data.get_data()

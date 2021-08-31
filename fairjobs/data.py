@@ -10,7 +10,7 @@ from nltk.corpus import stopwords
 
 def get_data(nrows=22000):
     """gets data"""
-    df = pd.read_csv("../raw_data/cleaned_newds.csv", nrows=nrows)
+    df = pd.read_csv("../raw_data/data_2021-31-08-cleaned_newds.csv", nrows=nrows)
     return df
 
 def clean_text(text):
