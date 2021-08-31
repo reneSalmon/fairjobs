@@ -92,7 +92,7 @@ create_bucket:
 	@gsutil mb -l ${REGION} -p ${PROJECT_ID} gs://${BUCKET_NAME}
 
 # path to the file to upload to GCP (the path to the file should be absolute or should match the directory where the make command is ran)
-LOCAL_PATH="/home/komiljon/code/reneSalmon/fairjobs/raw_data/basemodel_df_greg.csv"
+LOCAL_PATH="/home/komiljon/code/reneSalmon/fairjobs/raw_data/data_2021-31-08-cleaned_newds_gd.csv"
 
 # bucket directory in which to store the uploaded file (`data` is an arbitrary name that we choose to use)
 BUCKET_FOLDER=data
