@@ -8,7 +8,7 @@ import re
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
-def get_data(nrows=22000):
+def get_data(nrows=4):
     """gets data"""
     df = pd.read_csv("../raw_data/data_2021-31-08-cleaned_newds.csv", nrows=nrows)
     return df
