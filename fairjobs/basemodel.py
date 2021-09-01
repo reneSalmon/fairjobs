@@ -92,18 +92,20 @@ class BaseModel(object):
                 if fem_word in word.lower():
                     for masc_word in self.masc_words_list:
                         if masc_word in word.lower():
-                            self.List_for_annotation.append((word, "neutral", "#fea"))
+                            self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
                             flag_neut = True
-                    self.List_for_annotation.append((word, "female", "#faa"))
-                    flag_fem = True
+                    if flag_neut == False:
+                        self.List_for_annotation.append((word + ' ', "female", "#faa"))
+                        flag_fem = True
 
             for masc_word in self.masc_words_list:
                 if masc_word in word.lower():
-                    self.List_for_annotation.append((word, "male", "#8ef"))
-                    flag_masc = True
+                    if flag_neut == False:
+                        self.List_for_annotation.append((word + ' ', "male", "#8ef"))
+                        flag_masc = True
 
             if flag_neut == False and flag_fem == False and flag_masc == False:
-                self.List_for_annotation.append(word)
+                self.List_for_annotation.append(word + ' ')
 
         return self.cleaned_description, self.masc_words_list, self.fem_words_list,\
                self.List_for_annotation, n_masc_words, n_fem_words
