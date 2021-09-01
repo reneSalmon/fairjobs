@@ -8,9 +8,9 @@ import re
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 
-def get_data(nrows=22000):
+def get_data(nrows=10000):
     """gets data"""
-    df = pd.read_csv("../raw_data/cleaned_newds.csv", nrows=nrows)
+    df = pd.read_csv("../raw_data/data_full_df_web.csv", nrows=nrows)
     return df
 
 def clean_text(text):
