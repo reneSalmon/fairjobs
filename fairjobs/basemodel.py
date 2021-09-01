@@ -94,8 +94,9 @@ class BaseModel(object):
                         if masc_word in word.lower():
                             self.List_for_annotation.append((word, "neutral", "#fea"))
                             flag_neut = True
-                    self.List_for_annotation.append((word, "female", "#faa"))
-                    flag_fem = True
+                    if flag_neut == False:
+                        self.List_for_annotation.append((word, "female", "#faa"))
+                        flag_fem = True
 
             for masc_word in self.masc_words_list:
                 if masc_word in word.lower():
