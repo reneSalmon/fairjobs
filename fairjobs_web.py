@@ -105,15 +105,14 @@ def app():
 
         option = st.selectbox('Sort by gender', df['options'])
 
-
-        company_culture = st.slider('How important is the company culture to you?', 1, 10)
+        st.write('How important is ...')
         company_culture = st.slider(
             'company culture',
             1,
             10,
             help='lalalalala alalala'
         )
-        inclusivity = st.slider('inclusivity', 1, 10, help='lalalalala alalala')
+        inclusivity = st.slider('inclusion', 1, 10, help='lalalalala alalala')
         flexibility = st.slider('flexibility',
                                     1,
                                     10,
@@ -157,9 +156,6 @@ def app():
         #Import monster job_database to access job_offers
         #job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
         job_database = get_data()
-
-
-
 
         #Clean job_title column
         job_title = job_database['job_title']
@@ -213,11 +209,12 @@ def app():
         #    'family benefits', 'Personal development',
         # ]])
 
-        df_filtered = job_list  #pd.DataFrame(job_list[[
-        #'job_title', 'gender', 'company culture', 'inclusion',
-        #'flexibility', 'personal development', 'job_description',
-        #'fem_coded', 'masc_coded', 'list_for_annotation'
-        #]])
+        df_filtered = job_list
+        # df_filtered = pd.DataFrame(job_list[[
+        # 'job_title', 'gender', 'company culture', 'inclusion',
+        # 'flexibility', 'personal development', 'job_description',
+        # 'fem_coded', 'masc_coded', 'list_for_annotation'
+        # ]])
 
         #   df_filtered["Relevance Score"]= round(100 * (company_culture*df_filtered["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
         #                                         inclusivity*df_filtered["inclusion"].apply(lambda x: 1 if x=="Good" else 0) + \
@@ -240,7 +237,6 @@ def app():
             personal_ranked_df_index_free = personal_ranked_df[
                 personal_ranked_df['gender'] == option].reset_index(
                     drop=True)
-
 
         personal_ranked_df_left = personal_ranked_df_index_free#.style.set_properties(
         #**{'text-align': 'left'})
@@ -271,22 +267,24 @@ def app():
         #print(personal_ranked_df_left['job_description_c'])
         #annotated_job_describtions = List_for_annotation)
 
-        for index, row in personal_ranked_df_left.iterrows():
+        for index, row in personal_ranked_df_left[0:10].iterrows():
             expander = st.expander(
-               label=f"{row['job_title']} - tone: {row['gender']} ｜ matching score: {row['Relevance Score']} %"
+                label=
+                f"{row['job_title']} - company name:{row['company_name']}  tone: {row['gender']} ｜ matching score: {row['Relevance Score']} %"
             )
 
             with expander:
                 st.markdown("---")
-                col1, col2, col3, col4, col5, col6 = st.columns(6)
-                col1.metric(label='gender bias', value=row['gender'])
-                col2.metric(label='company culture', value=row['company culture'])
-                col3.metric(label='inclusivity', value=row['inclusion'])
-                col4.metric(label='flexibility', value=row['flexibility'])
-                col5.metric(label='personal development', value=row['personal development'])
-                col6.metric(label='matching score', value=row['Relevance Score'])
-                st.write("---")
+                col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
+                col1.metric(label='company_name', value=row['company_name'])
+                col2.metric(label='gender bias', value=row['gender'])
+                col3.metric(label='company culture', value=row['company culture'])
+                col4.metric(label='inclusivity', value=row['inclusion'])
+                col5.metric(label='flexibility', value=row['flexibility'])
+                col6.metric(label='personal development', value=row['personal development'])
+                col7.metric(label='matching score', value=row['Relevance Score'])
 
+                st.write("---")
                 st.write(annotated_text(*row['list_for_annotation']))
 
                 #st.write(row['job_description'])
