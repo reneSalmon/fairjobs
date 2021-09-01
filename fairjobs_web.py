@@ -42,8 +42,7 @@ def get_data():
     #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
 
     return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/data_2021-01-09-cleaned_newds_gd.csv"
-    )
+        f"gs://wagon-data-672-fechner/data/data_full_df_web_gd.csv")
 
 
 def app():
@@ -209,7 +208,7 @@ def app():
         # print dataframe 1
         job_list = job_database[matched_titels]
 
-        # st.dataframe(job_list[[
+        #st.dataframe(job_list)#[[
         #    'job_title', 'gender', 'company culture', 'inclusivity',
         #    'family benefits', 'Personal development',
         # ]])
@@ -274,7 +273,7 @@ def app():
                     List_for_annotation.append(word + ' ')
             lofl.append(List_for_annotation)
         personal_ranked_df_left['job_description_c'] = lofl
-        print(personal_ranked_df_left['job_description_c'])
+        #print(personal_ranked_df_left['job_description_c'])
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left.iterrows():
