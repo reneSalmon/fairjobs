@@ -12,9 +12,9 @@ import os
 # app1.py
 
 BUCKET_NAME = "wagon-data-672-fechner"
-storage_filename = "data/data_2021-01-09-cleaned_newds_gd.csv"
+storage_filename = "data/data_full_df_web_gd.csv"
 #local_filename = "train_1k_downloaded.csv"
-upload_storage_filename = "data/data_2021-01-09-cleaned_newds_gd.csv"
+upload_storage_filename = "data/data_full_df_web_gd.csv"
 
 # create credentials file
 google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
@@ -39,7 +39,7 @@ else:
 def get_data():
 
     #os.environ[
-        #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
+    #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
 
     return pd.read_csv(
         f"gs://wagon-data-672-fechner/data/data_2021-01-09-cleaned_newds_gd.csv"
