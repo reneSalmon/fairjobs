@@ -6,9 +6,19 @@ import string
 import requests
 from PIL import Image
 from nltk.tokenize import word_tokenize
-#from st_annotated_text import annotated_text
+from annotated_text import annotated_text
+import os
 
 # app1.py
+
+def get_data():
+
+    os.environ[
+        "GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
+
+    return pd.read_csv(
+        f"gs://wagon-data-672-fechner/data/df_all_3108-20.csv")
+
 
 def app():
 
@@ -120,7 +130,11 @@ def app():
         ### SEARCH ENGINE ###
 
         #Import monster job_database to access job_offers
-        job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
+        #job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
+        job_database = get_data()
+
+
+
 
         #Clean job_title column
         job_title = job_database['job_title']
