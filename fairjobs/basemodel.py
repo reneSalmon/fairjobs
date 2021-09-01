@@ -41,16 +41,29 @@ class BaseModel(object):
 
         self.neut_words_list = []
         self.List_for_annotation = []
-        for word in text.split():
-            if word in self.df['fem_words_list']:
-                if word in self.df['masc_words_list']:
-                    self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
-                self.List_for_annotation.append((word + ' ', "female", "#faa"))
-            elif word in self.df['masc_words_list']:
-                self.List_for_annotation.append((word + ' ', "male", "#8ef"))
-            else:
-                self.List_for_annotation.append(word + ' ')
-        return self.List_for_annotation
+        for i in range(len(self.df)):
+            for word in text.split():
+                if word in self.df['fem_words_list'][i]:
+                    if word in self.df['masc_words_list'][i]:
+                        self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
+                    self.List_for_annotation.append((word + ' ', "female", "#faa"))
+                elif word in self.df['masc_words_list'][i]:
+                    self.List_for_annotation.append((word + ' ', "male", "#8ef"))
+                else:
+                    self.List_for_annotation.append(word + ' ')
+            return self.List_for_annotation
+        # for i in range(len(self.df)):
+        #     for fem in self.df['fem_words_list'][i]):
+        #         for
+        #         if word in text.split():
+        #             if word in self.df['masc_words_list'][i]:
+        #                 self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
+        #             self.List_for_annotation.append((word + ' ', "female", "#faa"))
+        #         elif word in self.df['masc_words_list'][i]:
+        #             self.List_for_annotation.append((word + ' ', "male", "#8ef"))
+        #         else:
+        #             self.List_for_annotation.append(word + ' ')
+        #     return self.List_for_annotation
 
     def masc_fem_word_list(self, text):
         fh = open("../vocab_masc.pkl", 'rb')
@@ -77,19 +90,33 @@ class BaseModel(object):
                 self.fem_words_list.append(word)
                 n_fem_words += 1
 
+        self.masc_words_list = list(dict.fromkeys(self.masc_words_list))
+        self.fem_words_list = list(dict.fromkeys(self.fem_words_list))
+
         self.List_for_annotation = []
         for word in text.split():
-            if word in self.fem_words_list:
-                if word in self.masc_words_list:
-                    self.List_for_annotation.append((word, "neutral", "#fea"))
-                self.List_for_annotation.append((word, "female", "#faa"))
-            elif word in self.masc_words_list:
-                self.List_for_annotation.append((word, "male", "#8ef"))
-            else:
+
+            flag_neut = False
+            flag_fem = False
+            flag_masc = False
+
+            for fem_word in self.fem_words_list:
+                if fem_word in word.lower():
+                    for masc_word in self.masc_words_list:
+                        if masc_word in word.lower():
+                            self.List_for_annotation.append((word, "neutral", "#fea"))
+                            flag_neut = True
+                    self.List_for_annotation.append((word, "female", "#faa"))
+                    flag_fem = True
+
+            for masc_word in self.masc_words_list:
+                if masc_word in word.lower():
+                    self.List_for_annotation.append((word, "male", "#8ef"))
+                    flag_masc = True
+
+            if flag_neut == False and flag_fem == False and flag_masc == False:
                 self.List_for_annotation.append(word)
 
-        print(self.cleaned_description, self.masc_words_list, self.fem_words_list,\
-               self.List_for_annotation, n_masc_words, n_fem_words)
         return self.cleaned_description, self.masc_words_list, self.fem_words_list,\
                self.List_for_annotation, n_masc_words, n_fem_words
 
