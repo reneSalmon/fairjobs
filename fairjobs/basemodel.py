@@ -79,7 +79,7 @@ class BaseModel(object):
 
         self.List_for_annotation = []
         for word in text.split():
-            if word[:-1] in self.fem_words_list:
+            if word in self.fem_words_list:
                 if word in self.masc_words_list:
                     self.List_for_annotation.append((word, "neutral", "#fea"))
                 self.List_for_annotation.append((word, "female", "#faa"))
