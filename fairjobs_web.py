@@ -6,7 +6,7 @@ import string
 import requests
 from PIL import Image
 from nltk.tokenize import word_tokenize
-from annotated_text import annotated_text
+#from st_annotated_text import annotated_text
 
 # app1.py
 
