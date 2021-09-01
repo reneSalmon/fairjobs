@@ -28,6 +28,7 @@ joblib
 memoized-property
 termcolor
 streamlit
+annotated_text
 
 # Scrapping
 bs4
