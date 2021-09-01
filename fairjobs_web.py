@@ -11,13 +11,39 @@ import os
 
 # app1.py
 
+BUCKET_NAME = "wagon-data-672-fechner"
+storage_filename = "data/data_2021-01-09-cleaned_newds_gd.csv"
+#local_filename = "train_1k_downloaded.csv"
+upload_storage_filename = "data/data_2021-01-09-cleaned_newds_gd.csv"
+
+# create credentials file
+google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+
+if not os.path.isfile(google_credentials_file):
+
+    print("write credentials file 🔥" + f"\n- path: {google_credentials_file}")
+
+    # retrieve credentials
+    json_credentials = os.environ["GOOGLE_CREDS"]
+
+    # write credentials
+    with open(google_credentials_file, "w") as file:
+
+        file.write(json_credentials)
+
+else:
+
+    print("credentials file already exists 🎉")
+
+
 def get_data():
 
-    os.environ[
-        "GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
+    #os.environ[
+        #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
 
     return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/df_all_3108-20.csv")
+        f"gs://wagon-data-672-fechner/data/data_2021-01-09-cleaned_newds_gd.csv"
+    )
 
 
 def app():
