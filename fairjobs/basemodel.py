@@ -52,18 +52,6 @@ class BaseModel(object):
                 else:
                     self.List_for_annotation.append(word + ' ')
             return self.List_for_annotation
-        # for i in range(len(self.df)):
-        #     for fem in self.df['fem_words_list'][i]):
-        #         for
-        #         if word in text.split():
-        #             if word in self.df['masc_words_list'][i]:
-        #                 self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
-        #             self.List_for_annotation.append((word + ' ', "female", "#faa"))
-        #         elif word in self.df['masc_words_list'][i]:
-        #             self.List_for_annotation.append((word + ' ', "male", "#8ef"))
-        #         else:
-        #             self.List_for_annotation.append(word + ' ')
-        #     return self.List_for_annotation
 
     def masc_fem_word_list(self, text):
         fh = open("../vocab_masc.pkl", 'rb')
@@ -121,9 +109,9 @@ class BaseModel(object):
                self.List_for_annotation, n_masc_words, n_fem_words
 
     def label_gender(self, row):
-        if row['fem_coded'] > 52 :
+        if 100 >= row['fem_coded'] > 52 :
             return 'feminine'
-        elif row['fem_coded'] < 48:
+        elif 100 >= row['masc_coded'] > 52:
             return 'masculine'
         else:
             return 'neutral'
@@ -152,7 +140,7 @@ class BaseModel(object):
         return self.df
 
     def df_to_csv(self):
-        self.df.to_csv('../raw_data/data_2021-31-08-cleaned_newds_gd.csv', encoding='utf-8')
+        self.df.to_csv('../raw_data/data_2021-01-09-cleaned_newds_gd.csv', encoding='utf-8')
 
 if __name__ == '__main__':
     df = data.get_data()
