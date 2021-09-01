@@ -140,7 +140,7 @@ class BaseModel(object):
         return self.df
 
     def df_to_csv(self):
-        self.df.to_csv('../raw_data/data_2021-01-09-cleaned_newds_gd.csv', encoding='utf-8')
+        self.df.to_csv('../raw_data/data_full_df_web_gd.csv', encoding='utf-8')
 
 if __name__ == '__main__':
     df = data.get_data()
