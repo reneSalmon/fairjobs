@@ -1,6 +1,6 @@
 import data
 import pickle
-import ast
+import pandas as pd
 
 class BaseModel(object):
 
@@ -19,7 +19,7 @@ class BaseModel(object):
             if word in final_fem_vocab:
                 self.fem_words_list.append(word)
                 n_fem_words += 1
-        # self.fem_words_list = [n.strip() for n in self.fem_words_list]
+
         return self.fem_words_list
 
     def masc_words(self, text):
@@ -36,6 +36,21 @@ class BaseModel(object):
                 n_masc_words += 1
 
         return self.masc_words_list
+
+    def text_for_annotation(self, text):
+
+        self.neut_words_list = []
+        self.List_for_annotation = []
+        for word in text.split():
+            if word in self.df['fem_words_list']:
+                if word in self.df['masc_words_list']:
+                    self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
+                self.List_for_annotation.append((word + ' ', "female", "#faa"))
+            elif word in self.df['masc_words_list']:
+                self.List_for_annotation.append((word + ' ', "male", "#8ef"))
+            else:
+                self.List_for_annotation.append(word + ' ')
+        return self.List_for_annotation
 
     def masc_fem_word_list(self, text):
         fh = open("../vocab_masc.pkl", 'rb')
@@ -64,20 +79,19 @@ class BaseModel(object):
 
         self.List_for_annotation = []
         for word in text.split():
-            if word in self.fem_words_list:
+            if word[:-1] in self.fem_words_list:
                 if word in self.masc_words_list:
-                    self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
-                self.List_for_annotation.append((word + ' ', "female", "#faa"))
+                    self.List_for_annotation.append((word, "neutral", "#fea"))
+                self.List_for_annotation.append((word, "female", "#faa"))
             elif word in self.masc_words_list:
-                self.List_for_annotation.append((word + ' ', "male", "#8ef"))
+                self.List_for_annotation.append((word, "male", "#8ef"))
             else:
-                self.List_for_annotation.append(word + ' ')
+                self.List_for_annotation.append(word)
 
         print(self.cleaned_description, self.masc_words_list, self.fem_words_list,\
                self.List_for_annotation, n_masc_words, n_fem_words)
         return self.cleaned_description, self.masc_words_list, self.fem_words_list,\
                self.List_for_annotation, n_masc_words, n_fem_words
-
 
     def label_gender(self, row):
         if row['fem_coded'] > 52 :
@@ -87,21 +101,6 @@ class BaseModel(object):
         else:
             return 'neutral'
 
-    def text_for_annotation(self, text):
-
-        self.neut_words_list = []
-        self.List_for_annotation = []
-        for word in text.split():
-            if word in self.df['fem_words_list']:
-                if word in self.df['masc_words_list']:
-                    self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
-                self.List_for_annotation.append((word + ' ', "female", "#faa"))
-            elif word in self.df['masc_words_list']:
-                self.List_for_annotation.append((word + ' ', "male", "#8ef"))
-            else:
-                self.List_for_annotation.append(word + ' ')
-        return self.List_for_annotation
-
     def masc_fem_words(self):
         # self.df['masc_words_list'] = self.df['clean_description'].apply(self.masc_words)
         # self.df['fem_words_list'] = self.df['clean_description'].apply(self.fem_words)
@@ -110,7 +109,10 @@ class BaseModel(object):
 
         # self.df['list_for_annotation'] = self.df['job_description'].apply(self.text_for_annotation)
 
-
+        self.df['results'] = self.df['job_description'].apply(self.masc_fem_word_list)
+        self.df[['clean_description', 'masc_words_list', 'fem_words_list',
+                 'list_for_annotation', 'masc_words', 'fem_words']] =\
+                pd.DataFrame(self.df['results'].tolist(), index=df.index)
 
         self.df['masc_coded'] = self.df['masc_words']/(self.df['masc_words'] +
                                                        self.df['fem_words'] + 0.001)
@@ -130,7 +132,6 @@ if __name__ == '__main__':
     # df_clean = data.clean_df(df)
     # print(df_clean.columns)
     model = BaseModel(df)
-    model.
     model.masc_fem_words()
     model.df_to_csv()
     print(model.df)
