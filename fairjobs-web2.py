@@ -5,23 +5,15 @@ import re
 import string
 import requests
 from PIL import Image
-from nltk.tokenize import word_tokenize
 
 
-# def my_widget(key):
-#     st.subheader('Hello there!')
-#     clicked = st.button("Click me " + key)
-
-
-sidebar_selection = st.sidebar.radio(
-    'Select data:',
-    ['Problem', 'Solution', 'Value for Society'],
-)
-
+def my_widget(key):
+    st.subheader('Hello there!')
+    clicked = st.button("Click me " + key)
 
 # AND in st.sidebar!
-# with st.sidebar:
-#     clicked = my_widget("third")
+with st.sidebar:
+    clicked = my_widget("third")
 
 # st.set_page_config(
 #         page_title="Quick reference", # => Quick reference - Streamlit
@@ -62,23 +54,23 @@ with my_expander:
     personal_development = st.slider('personal development', 1, 10)
 
 
-    # if company_culture:
-    #     st.session_state.company_culture = company_culture
+    if company_culture:
+        st.session_state.company_culture = company_culture
 
-    # if inclusivity:
-    #     st.session_state.inclusivity = inclusivity
+    if inclusivity:
+        st.session_state.inclusivity = inclusivity
 
-    # if family_benefits:
-    #     st.session_state.family_benefits = family_benefits
+    if family_benefits:
+        st.session_state.family_benefits = family_benefits
 
-    # if personal_development:
-    #     st.session_state.personal_development = personal_development
+    if personal_development:
+        st.session_state.personal_development = personal_development
 
     #Sort jobs-button
     #clicked = my_expander.button('sort jobs')
 
     #sort results by gender
-    #@st.cache
+    @st.cache
     def get_select_box_data():
 
         return pd.DataFrame({
@@ -179,25 +171,17 @@ if st.button('search'):
             personal_ranked_df['gender'] == option].reset_index(
                 drop=True)
 
-    personal_ranked_df_left = personal_ranked_df_index_free#.style.set_properties(
-    #**{'text-align': 'left'})
-
-    for index, row in personal_ranked_df_left.iterrows():
-        expander = st.expander(label=f"{row['job_title']} {row['gender']}")
-        with expander:
-            st.metric(label='score', value=row['Relevance Score'])
+    personal_ranked_df_left = personal_ranked_df_index_free.style.set_properties(
+        **{'text-align': 'left'})
 
 
-    #st.table(personal_ranked_df_left)
+    st.table(personal_ranked_df_left)
 
 
 
 
 
-
-
-
-#pd.set_option('display.max_colwidth', None)
+    #pd.set_option('display.max_colwidth', None)
 
 
 #my_expander = st.beta_expander()
@@ -252,47 +236,3 @@ if st.button('search'):
 #                                 family_benefits*job_database["family benefits_score"] + \
 #                                personal_development*job_database["Personal development_score"] ) \
 #                             / (company_culture+inclusivity+family_benefits+personal_development),2)
-
-"""
-# Annotated text example
-
-Below is an example of how to use the annotated_text function:
-"""
-
-from annotated_text import annotated_text
-
-
-fem_words = ['support','responsible']
-masculin_words =['leader', 'objectives']
-neutral_words =['innovative']
-
-job_description ='We are looking for responsible leader who support innovative ideas in our objectives'
-
-
-List_for_annotion = []
-tokenized = word_tokenize(job_description)
-for word in tokenized:
-    if word in fem_words:
-        List_for_annotion.append((word, 'female', "#8ef"))
-    else:
-        List_for_annotion.append(word)
-
-annotated_text(List_for_annotion)
-
-annotated_text(
-    "This ",
-    ("is", "male", "#8ef"),
-    " some ",
-    ("annotated", "adj", "#faa"),
-    ("text", "noun", "#afa"),
-    " for those of ",
-    ("you", "pronoun", "#fea"),
-    " who ",
-    ("like", "verb", "#8ef"),
-    " this sort of ",
-    ("thing", "noun", "#afa"),
-)
-
-
-#df_job_description = pd.DataFrame(job_list[['job_description']])
-#st.dataframe(df_job_description)
