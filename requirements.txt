@@ -38,7 +38,6 @@ requests
 gensim
 unidecode
 nltk
-nltk.tokenize
 
 #Dataframe Website Search Engine
 pyarrow==3.0.0

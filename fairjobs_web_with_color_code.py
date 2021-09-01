@@ -8,9 +8,12 @@ from PIL import Image
 from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 
+
 # app1.py
 
 def app():
+
+
 
     # def my_widget(key):
     #     st.subheader('Hello there!')
@@ -59,32 +62,21 @@ def app():
     with my_expander:
         "How important is to you ... ?"
 
-        #sort results by gender
-        #@st.cache
-        def get_select_box_data():
 
-            return pd.DataFrame(
-                {'options': ['all', 'neutral', 'feminine', 'masculine']})
-
-        df = get_select_box_data()
-
-        option = st.selectbox('Sort by gender', df['options'])
-
-
-        company_culture = st.slider('How important is the company culture to you?', 1, 10)
+        #company_culture = st.slider('How important is the company culture to you?', 1, 10)
         company_culture = st.slider(
             'company culture',
-            1,
+            0,
             10,
             help='lalalalala alalala'
         )
-        inclusivity = st.slider('inclusivity', 1, 10, help='lalalalala alalala')
-        flexibility = st.slider('flexibility',
-                                    1,
+        inclusivity = st.slider('inclusivity', 0, 10, help='lalalalala alalala')
+        family_benefits = st.slider('flexibility',
+                                    0,
                                     10,
                                     help='lalalalala alalala')
         personal_development = st.slider('personal development',
-                                         1,
+                                         0,
                                          10,
                                          help='lalalalala alalala')
 
@@ -104,13 +96,24 @@ def app():
         #Sort jobs-button
         #clicked = my_expander.button('sort jobs')
 
+        #sort results by gender
+        #@st.cache
+        def get_select_box_data():
+
+            return pd.DataFrame({
+                'options': ['all', 'neutral', 'feminine', 'masculine']
+            })
+
+        df = get_select_box_data()
+
+        option = st.selectbox('Sort by gender', df['options'])
 
 
     #Search Button
     if st.button('search'):
         #st.write('I was clicked 🎉')
         st.markdown(
-            "<h1 style='text-align: right; color: grey;font-size: 10px'>sorted by gender</h1>",
+            "<h1 style='text-align: right; color: red;'>sorted by</h1>",
             unsafe_allow_html=True)
         #st.write(f'sorted by {option} gender')
         #Search field 2
@@ -120,7 +123,7 @@ def app():
         ### SEARCH ENGINE ###
 
         #Import monster job_database to access job_offers
-        job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
+        job_database = pd.read_csv('raw_data/basemodel_crit.csv')
 
         #Clean job_title column
         job_title = job_database['job_title']
@@ -175,28 +178,18 @@ def app():
         # ]])
 
         df_filtered = pd.DataFrame(job_list[[
-            'job_title',
-            'gender',
-            'company culture',
-            'inclusion',
-            'flexibility',
-            'personal development',
-            'job_description',
-            'fem_coded',
-            'masc_coded',
+        'job_title', 'gender', 'company culture', 'inclusivity',
+        'family benefits', 'Personal development', 'job_description',
         ]])
 
-        #   df_filtered["Relevance Score"]= round(100 * (company_culture*df_filtered["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
-        #                                         inclusivity*df_filtered["inclusion"].apply(lambda x: 1 if x=="Good" else 0) + \
-        #                                         flexibility*df_filtered["flexibility"].apply(lambda x: 1 if x=="Good" else 0)+ \
-        #                                         personal_development*df_filtered["personal development"].apply(lambda x: 1 if x=="Good" else 0)) / (company_culture+inclusion+flexiblity+personal_development) ,2 )
+        df_filtered["Relevance Score"]= round(100 * (company_culture*df_filtered["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                            inclusivity*df_filtered["inclusivity"].apply(lambda x: 1 if x=="Good" else 0) + \
+                                            family_benefits*df_filtered["family benefits"].apply(lambda x: 1 if x=="Good" else 0)+ \
+                                            personal_development*df_filtered["Personal development"].apply(lambda x: 1 if x=="Good" else 0)) / (company_culture+inclusivity+family_benefits+personal_development) ,2 )
 
-        df_filtered["Relevance Score"]= round((company_culture*df_filtered["company culture"] + \
-                                            inclusivity*df_filtered["inclusion"] + \
-                                            flexibility*df_filtered["flexibility"]+ \
-                                            personal_development*df_filtered["personal development"]) / (company_culture+inclusivity+flexibility+personal_development) ,0)
 
         personal_ranked_df = df_filtered.sort_values(by=['Relevance Score', 'gender'] , ascending=False)
+
 
         #personal_ranked_df_index_free = personal_ranked_df.assign(hack='').reset_index(drop=True)
 
@@ -216,6 +209,9 @@ def app():
         fem_words = ['support', 'responsible']
         masculin_words = ['leader', 'objectives']
         neutral_words = ['innovative']
+        st.markdown("""
+
+        """)
 
         lofl = []
         for row in personal_ranked_df_left['job_description']:
@@ -238,18 +234,16 @@ def app():
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left.iterrows():
-            expander = st.expander(
-               label=f"{row['job_title']} - tone: {row['gender']} ｜ matching score: {row['Relevance Score']} %"
-            )
+            expander = st.expander(label=f"{row['job_title']} {row['gender']}")
 
             with expander:
                 st.markdown("---")
                 col1, col2, col3, col4, col5, col6 = st.columns(6)
-                col1.metric(label='gender bias', value=row['gender'])
-                col2.metric(label='company culture', value=row['company culture'])
-                col3.metric(label='inclusivity', value=row['inclusion'])
-                col4.metric(label='flexibility', value=row['flexibility'])
-                col5.metric(label='personal development', value=row['personal development'])
+                col1.metric(label='company culture', value=row['company culture'])
+                col2.metric(label='gender bias', value=row['gender'])
+                col3.metric(label='inclusivity', value=row['inclusivity'])
+                col4.metric(label='flexibility', value=row['family benefits'])
+                col5.metric(label='personal development', value=row['Personal development'])
                 col6.metric(label='matching score', value=row['Relevance Score'])
                 st.write("---")
 
