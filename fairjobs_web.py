@@ -42,7 +42,7 @@ def get_data():
     #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
 
     return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/data_full_df_web_gd.csv")
+        f"gs://wagon-data-672-fechner/data/data_full_df_web_gd.csv", converters={'masc_words_list': eval, 'fem_words_list': eval, 'list_for_annotation': eval})
 
 
 def app():
@@ -213,17 +213,11 @@ def app():
         #    'family benefits', 'Personal development',
         # ]])
 
-        df_filtered = pd.DataFrame(job_list[[
-            'job_title',
-            'gender',
-            'company culture',
-            'inclusion',
-            'flexibility',
-            'personal development',
-            'job_description',
-            'fem_coded',
-            'masc_coded',
-        ]])
+        df_filtered = job_list  #pd.DataFrame(job_list[[
+        #'job_title', 'gender', 'company culture', 'inclusion',
+        #'flexibility', 'personal development', 'job_description',
+        #'fem_coded', 'masc_coded', 'list_for_annotation'
+        #]])
 
         #   df_filtered["Relevance Score"]= round(100 * (company_culture*df_filtered["company culture"].apply(lambda x: 1 if x=="Good" else 0) + \
         #                                         inclusivity*df_filtered["inclusion"].apply(lambda x: 1 if x=="Good" else 0) + \
@@ -248,31 +242,32 @@ def app():
                     drop=True)
 
 
-        personal_ranked_df_left = personal_ranked_df_index_free[0:10]#.style.set_properties(
+        personal_ranked_df_left = personal_ranked_df_index_free#.style.set_properties(
         #**{'text-align': 'left'})
+        #st.table(personal_ranked_df_left)
 
-        #color-coding job_describtions
-        fem_words = ['support', 'responsible']
-        masculin_words = ['leader', 'objectives']
-        neutral_words = ['innovative']
+        # #color-coding job_describtions
+        # fem_words = ['support', 'responsible']
+        # masculin_words = ['leader', 'objectives']
+        # neutral_words = ['innovative']
 
-        lofl = []
-        for row in personal_ranked_df_left['job_description']:
-            List_for_annotation = []
-            for word in row.split():
-                if word in fem_words:
-                    List_for_annotation.append((word + ' ', "female", "#faa"))
+        # lofl = []
+        # for row in personal_ranked_df_left['job_description']:
+        #     List_for_annotation = []
+        #     for word in row.split():
+        #         if word in fem_words:
+        #             List_for_annotation.append((word + ' ', "female", "#faa"))
 
-                elif word in masculin_words:
-                    List_for_annotation.append((word + ' ', "male", "#8ef"))
+        #         elif word in masculin_words:
+        #             List_for_annotation.append((word + ' ', "male", "#8ef"))
 
-                elif word in neutral_words:
-                    List_for_annotation.append((word + ' ', "neutral", "#fea"))
+        #         elif word in neutral_words:
+        #             List_for_annotation.append((word + ' ', "neutral", "#fea"))
 
-                else:
-                    List_for_annotation.append(word + ' ')
-            lofl.append(List_for_annotation)
-        personal_ranked_df_left['job_description_c'] = lofl
+        #         else:
+        #             List_for_annotation.append(word + ' ')
+        #     lofl.append(List_for_annotation)
+        # personal_ranked_df_left['job_description_c'] = lofl
         #print(personal_ranked_df_left['job_description_c'])
         #annotated_job_describtions = List_for_annotation)
 
@@ -292,7 +287,7 @@ def app():
                 col6.metric(label='matching score', value=row['Relevance Score'])
                 st.write("---")
 
-                st.write(annotated_text(*row['job_description_c']))
+                st.write(annotated_text(*row['list_for_annotation']))
 
                 #st.write(row['job_description'])
 
