@@ -11,16 +11,34 @@ from PIL import Image
 
 def app():
 
-    st.title('Gender text decoder')
-    st.markdown(
-    '''
-    Why did we do it?
-    What is it doing?
-    What did we do?
-    What was the biggest challenge?
+    #st.title('product design')
+    # st.markdown(
+    # '''
+    # Why did we do it?
+    # What is it doing?
+    # What did we do?
+    # What was the biggest challenge?
 
-    ''')
+    # ''')
 
     #fairjobs logo
-#  image = Image.open('./images_website/fairjobs_logo.png')
-#  st.image(image)
+    st.title('How does GenRank work?')
+    image = Image.open(
+        './images_website/GenRank_Algorithm.png'
+    )
+    st.image(image)
+    st.title('What is the architecture?')
+    image = Image.open('./images_website/Architektur.png')
+    st.image(image)
+
+    st.title('How does the text decoder work?')
+    image = Image.open(
+        './images_website/GenderDecoder.png'
+    )
+    st.image(image)
+
+    st.title('How does the picture decoder work?')
+    image = Image.open(
+        './images_website/FaceDetection.png'
+    )
+    st.image(image)
