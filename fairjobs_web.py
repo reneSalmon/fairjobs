@@ -43,7 +43,12 @@ def get_data():
     #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
 
     return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/data_full_df_web_gd.csv", converters={'masc_words_list': eval, 'fem_words_list': eval, 'list_for_annotation': eval})
+        f"gs://wagon-data-672-fechner/data/data_data_full_df_web_gd.csv",
+        converters={
+            'masc_words_list': eval,
+            'fem_words_list': eval,
+            'list_for_annotation': eval
+        })
 
 
 def app():
@@ -84,14 +89,14 @@ def app():
     sessions_state = 0
 
     # Search field
-    search_word = st.text_input('Enter a jobtitel')
+    search_word = st.text_input('Enter a jobtitle')
 
     # Serach field 2
     #form = st.form(key='my_form')
     #search_word = form.text_input(label='Enter jobtitel')
 
     # Personalizer Sliderbars
-    my_expander = st.expander(label='personalise your search')
+    my_expander = st.expander(label='personalize your search')
     with my_expander:
         "How important is to you ... ?"
 
@@ -267,37 +272,40 @@ def app():
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left[0:10].iterrows():
-            expander = st.expander(label=f"{row['job_title']}"
-                                   )
-           # st.write(
+            expander = st.expander(
+                label=
+                f"{row['job_title']} at {row['company_name']}")
+            # st.write(
+            #     f"gender-tone: {row['gender']}"
+            # )
+            # st.write(
+            #     f"personal matching {row['Relevance Score']}%"
+            # )
 
-           #         'first column': row['company_name'],
-           #         'second column': row['gender'],
-           #         'third column': row['Relevance Score'],
-
-
-            st.write("---")
 
             with expander:
                 #st.markdown("---")
+
                 col0, col1, col2, col3, = st.columns(4)
-                col0.metric(label='female words', value=row['fem_words'])
-                col1.metric(label='masculine words', value=row['masc_words'])
-                col2.metric(label='female coded', value=row['fem_coded'])
-                col3.metric(label='male coded', value=row['masc_coded'])
+                col0.metric(label='female coded', value=row['fem_coded'])
+                col1.metric(label='male coded', value=row['masc_coded'])
+                col2.metric(label='picture score', value=row['woman_pic_ratio'])
+                col3.metric(label='relevance score',
+                            value=row['Relevance Score'])
 
-                # col4, col5, col6, col7 = st.columns(4)
-                # col4.metric(label='company culture',value=row['company culture'])
-                # col5.metric(label='inclusivity', value=row['inclusion'])
-                # col6.metric(label='flexibility', value=row['flexibility'])
-                # col7.metric(label='personal development', value=row['personal development'])
+                col4, col5, col6, col7 = st.columns(4)
+                col4.metric(label='company culture',value=row['company culture'])
+                col5.metric(label='inclusivity', value=row['inclusion'])
+                col6.metric(label='flexibility', value=row['flexibility'])
+                col7.metric(label='personal development', value=row['personal development'])
 
+                st.write(f"city: {row['loc']}")
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
 
 
-
+#st.write("---")
 
 st.markdown(
     "<h1 style='text-align: right; color: grey;font-size: 10px'>sorted by gender</h1>",
