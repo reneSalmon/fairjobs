@@ -89,9 +89,9 @@ class BaseModel(object):
             flag_masc = False
 
             for fem_word in self.fem_words_list:
-                if fem_word in word.lower():
+                if word.lower().find(fem_word) == 0:
                     for masc_word in self.masc_words_list:
-                        if masc_word in word.lower():
+                        if word.lower().find(masc_word) == 0:
                             self.List_for_annotation.append((word + ' ', "neutral", "#fea"))
                             flag_neut = True
                             break
@@ -102,7 +102,7 @@ class BaseModel(object):
                             break
             else:
                 for masc_word in self.masc_words_list:
-                    if masc_word in word.lower():
+                    if word.lower().find(masc_word) == 0:
                         if flag_neut == False:
                             self.List_for_annotation.append((word + ' ', "male", "#8ef"))
                             flag_masc = True
