@@ -8,7 +8,7 @@ from PIL import Image
 from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
-import matplotlib.pyplot as plt
+
 
 # app1.py
 
@@ -289,7 +289,7 @@ def app():
                 col0, col1, col2, col3, = st.columns(4)
                 col0.metric(label='female coded', value=row['fem_coded'])
                 col1.metric(label='male coded', value=row['masc_coded'])
-                col2.metric(label='picture score', value=row['woman_pic_ratio'])
+                col2.metric(label='picture score', value=round(row['woman_pic_ratio'],2))
                 col3.metric(label='relevance score',
                             value=row['Relevance Score'])
 
