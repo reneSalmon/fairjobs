@@ -8,6 +8,7 @@ from PIL import Image
 from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
+import matplotlib.pyplot as plt
 
 # app1.py
 
@@ -110,17 +111,17 @@ def app():
             'company culture',
             1,
             10,
-            help='lalalalala alalala'
+            help="looks for occurences of the words 'support', 'collaboration', 'team', 'value', 'culture' and similar words in the job description"
         )
-        inclusivity = st.slider('inclusion', 1, 10, help='lalalalala alalala')
+        inclusivity = st.slider('inclusion', 1, 10, help="looks for occurences of the words 'transparent', 'fair', 'inclusive', 'equal' and similar words in the job description")
         flexibility = st.slider('flexibility',
                                     1,
                                     10,
-                                    help='lalalalala alalala')
+                                    help="looks for occurences of the words 'home', 'part time', 'flexible', 'balance', 'vacation' and similar words in the job description")
         personal_development = st.slider('personal development',
                                          1,
                                          10,
-                                         help='lalalalala alalala')
+                                         help="looks for occurences of the words 'grow', 'learn', 'train', 'coach', 'develop' and similar words")
 
 
         # if company_culture:
@@ -143,9 +144,7 @@ def app():
     #Search Button
     if st.button('search'):
         #st.write('I was clicked 🎉')
-        st.markdown(
-            "<h1 style='text-align: right; color: grey;font-size: 10px'>sorted by gender</h1>",
-            unsafe_allow_html=True)
+
         #st.write(f'sorted by {option} gender')
         #Search field 2
         # if form.form_submit_button(label='search'):
@@ -268,101 +267,38 @@ def app():
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left[0:10].iterrows():
-            expander = st.expander(
-                label=
-                f"{row['job_title']} - company name:{row['company_name']}  tone: {row['gender']} ｜ matching score: {row['Relevance Score']} %"
-            )
+            expander = st.expander(label=f"{row['job_title']}"
+                                   )
+           # st.write(
+
+           #         'first column': row['company_name'],
+           #         'second column': row['gender'],
+           #         'third column': row['Relevance Score'],
+
+
+            st.write("---")
 
             with expander:
-                st.markdown("---")
-                col1, col2, col3, col4, col5, col6, col7 = st.columns(7)
-                col1.metric(label='company_name', value=row['company_name'])
-                col2.metric(label='gender bias', value=row['gender'])
-                col3.metric(label='company culture', value=row['company culture'])
-                col4.metric(label='inclusivity', value=row['inclusion'])
-                col5.metric(label='flexibility', value=row['flexibility'])
-                col6.metric(label='personal development', value=row['personal development'])
-                col7.metric(label='matching score', value=row['Relevance Score'])
+                #st.markdown("---")
+                col0, col1, col2, col3, = st.columns(4)
+                col0.metric(label='female words', value=row['fem_words'])
+                col1.metric(label='masculine words', value=row['masc_words'])
+                col2.metric(label='female coded', value=row['fem_coded'])
+                col3.metric(label='male coded', value=row['masc_coded'])
 
-                st.write("---")
+                # col4, col5, col6, col7 = st.columns(4)
+                # col4.metric(label='company culture',value=row['company culture'])
+                # col5.metric(label='inclusivity', value=row['inclusion'])
+                # col6.metric(label='flexibility', value=row['flexibility'])
+                # col7.metric(label='personal development', value=row['personal development'])
+
+
                 st.write(annotated_text(*row['list_for_annotation']))
 
-                #st.write(row['job_description'])
 
 
 
 
-
-
-
-
-
-                #st.table(personal_ranked_df_left)
-
-
-
-
-
-
-#[company website](http://github.com/streamlit)
-
-#pd.set_option('display.max_colwidth', None)
-
-
-#my_expander = st.beta_expander()
-#my_expander.write('Hello there!')
-#clicked = my_expander.button('Click me!')
-
-#df = pd.DataFrame({
-#       'job':[job_database[matched_titels]['job_title']]
-# 'Company': ['Google', 'Tesla', 'Facebook', 'Volkswagen'],
-# 'Rating': ['4 stars', '3 stars', '5 stars', '3 stars'],
-# 'Tone': ['female', 'male', 'neutral', 'female'],
-# 'City': ['London', 'Hamburg', 'Dublin', 'Paris'],
-# 'Relevance Score': ['90%', '75%', '60%', '43%']
-# })
-#df = pd.DataFrame(np.random.randn(3, 5),
-#                  columns=['Job', 'Company', 'City', 'Tone','Matching Score'])
-
-#st.table(df.head())
-
-
-# Filter
-#if st.checkbox('Filter 1'):
-#    st.write('active')
-
-#if st.checkbox('Filter 2'):
-#    st.write('active')
-
-#if st.checkbox('Filter 3'):
-#    st.write('active')
-
-#if st.checkbox('Filter 4'):
-#    st.write('active')
-
-#if st.checkbox('Filter 5'):
-#    st.write('active')
-
-# Display search results
-
-#df = pd.DataFrame(job_database[matched_titels]),
-#                  columns=['Job', 'Company', 'City', 'Tone','Matching Score'])
-
-#Create output dataframe
-
-#Create markdown Toogle to see job describtion
-
-#Add Css for color coding for filter words
-
-
-# or using the score directly
-#job_database["Relevance Score_score"]= round( 100 * (company_culture*job_database["company culture_score"] + \
-#                                  inclusivity*job_database["inclusivity_score"] + \
-#                                 family_benefits*job_database["family benefits_score"] + \
-#                                personal_development*job_database["Personal development_score"] ) \
-#                             / (company_culture+inclusivity+family_benefits+personal_development),2)
-
-
-
-#df_job_description = pd.DataFrame(job_list[['job_description']])
-#st.dataframe(df_job_description)
+st.markdown(
+    "<h1 style='text-align: right; color: grey;font-size: 10px'>sorted by gender</h1>",
+    unsafe_allow_html=True)
