@@ -12,7 +12,7 @@ PAGES = {
    # "gender picture decoder": gender_picture_decoder,
     #"personalizer": Personalizer
 }
-st.sidebar.title('Agenda')
-selection = st.sidebar.radio("What's up?", list(PAGES.keys()))
+st.sidebar.title('Content')
+selection = st.sidebar.radio("", list(PAGES.keys()))
 page = PAGES[selection]
 page.app()
