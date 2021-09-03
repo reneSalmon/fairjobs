@@ -127,7 +127,7 @@ def app():
 
     st.title('Team')
     st.write('\n')
-    image = Image.open('./images_website/team.png')
+    image = Image.open('images_website/team2.png')
     st.image(image)
 
     st.write('Grégoire Le Bras, René Salmon, Anita Fechner, Komil Nasrullaev')
