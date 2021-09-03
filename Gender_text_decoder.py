@@ -51,7 +51,7 @@ def app():
 
     # st.markdown("---")
 
-    st.title('How does the text decoder work?')
+    st.title('Text decoder')
     st.write('\n')
     image = Image.open(
         './images_website/GenderDecoder.png'
@@ -77,7 +77,7 @@ def app():
     st.write('\n')
     st.write('\n')
 
-    st.title('How does the personalizer work?')
+    st.title('Personalizer')
     st.write('\n')
     image = Image.open('images_website/Personalizer.png')
     st.image(image)
@@ -101,33 +101,33 @@ def app():
     st.write('\n')
 
 
-    # st.title('How does the picture decoder work?')
-    # st.write('\n')
-    # image = Image.open('./images_website/PictureClassification1.png')
-    # st.image(image)
+    st.title('Picture decoder')
+    st.write('\n')
+    image = Image.open('./images_website/PictureClassification3.png')
+    st.image(image)
 
 
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.markdown("---")
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
-    # st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.markdown("---")
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
 
     st.title('Team')
     st.write('\n')
-    image = Image.open('./images_website/Team.png')
+    image = Image.open('images_website/team2.png')
     st.image(image)
 
     st.write('Grégoire Le Bras, René Salmon, Anita Fechner, Komil Nasrullaev')

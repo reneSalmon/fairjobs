@@ -9,7 +9,7 @@ PAGES = {
     "problem": problem_page,
     "solution": fairjobs_web,
     "product design": Gender_text_decoder,
-   # "gender picture decoder": gender_picture_decoder,
+    "team": gender_picture_decoder,
     #"personalizer": Personalizer
 }
 st.sidebar.title('Content')
