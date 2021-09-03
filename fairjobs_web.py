@@ -109,7 +109,7 @@ def app():
 
         df = get_select_box_data()
 
-        option = st.selectbox('Sort by gender', df['options'])
+        option = st.selectbox('Sort by tone', df['options'])
 
         st.write('How important is ...')
         company_culture = st.slider(
@@ -289,15 +289,17 @@ def app():
                 col0, col1, col2, col3, = st.columns(4)
                 col0.metric(label='female coded', value=row['fem_coded'])
                 col1.metric(label='male coded', value=row['masc_coded'])
-                col2.metric(label='picture score', value=round(row['woman_pic_ratio'],2))
+                col2.metric(label='picture score', value=round(row['woman_pic_ratio'],2)*100)
                 col3.metric(label='relevance score',
                             value=row['Relevance Score'])
 
                 col4, col5, col6, col7 = st.columns(4)
-                col4.metric(label='company culture',value=row['company culture'])
+                col4.metric(label='culture',
+                            value=row['company culture'])
                 col5.metric(label='inclusivity', value=row['inclusion'])
                 col6.metric(label='flexibility', value=row['flexibility'])
-                col7.metric(label='personal development', value=row['personal development'])
+                col7.metric(label='personal development',
+                            value=row['personal development'])
 
                 st.write(f"city: {row['loc']}")
 
@@ -306,7 +308,3 @@ def app():
 
 
 #st.write("---")
-
-st.markdown(
-    "<h1 style='text-align: right; color: grey;font-size: 10px'>sorted by gender</h1>",
-    unsafe_allow_html=True)
