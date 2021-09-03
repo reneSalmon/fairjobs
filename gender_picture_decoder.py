@@ -8,10 +8,30 @@ from PIL import Image
 
 def app():
 
-    st.title('Gender text decoder')
+    st.title('Team')
+    st.write('\n')
+    image = Image.open('images_website/team2.png')
+    st.image(image)
 
-    #fairjobs logo
-    image = Image.open(
-        './images_website/greg_presentation.png'
-    )
+    st.write('Grégoire Le Bras, René Salmon, Anita Fechner, Komil Nasrullaev')
+
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.markdown("---")
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+
+    image = Image.open('./images_website/960x0.jpg')
     st.image(image)
