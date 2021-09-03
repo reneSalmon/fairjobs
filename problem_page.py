@@ -23,6 +23,30 @@ def app():
 
 
 
+    st.write('\n')
+    image = Image.open('./images_website/intro.png')
+    st.image(image)
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+
+    st.markdown("---")
+
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+    st.write('\n')
+
+
     #fairjobs logo
 
     st.title('What is my problem?')
