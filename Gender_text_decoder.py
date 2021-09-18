@@ -24,7 +24,9 @@ def app():
     #fairjobs logo
     st.title('How does fairjobs work?')
     st.write('\n')
-    image = Image.open('./images_website/job_offers.png')
+    image = Image.open(
+        './images_website/GenRank_Algorithm.png'
+    )
     st.image(image)
     st.write('\n')
     st.write('\n')

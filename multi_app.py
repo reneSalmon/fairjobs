@@ -3,12 +3,15 @@ import fairjobs_web
 import problem_page
 import Gender_text_decoder
 import gender_picture_decoder
+import fairjobs_web_server
 import Personalizer
+import streamlit.components.v1 as components
 
 PAGES = {
     "problem": problem_page,
-    "solution": fairjobs_web,
-    "product design": Gender_text_decoder,
+    #"solution": fairjobs_web,
+    "solution": fairjobs_web_server,
+    "technology": Gender_text_decoder,
     "team": gender_picture_decoder,
     #"personalizer": Personalizer
 }

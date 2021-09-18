@@ -9,51 +9,38 @@ from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
 import streamlit.components.v1 as components
+import urllib.request
+import urllib.request as req
+from ftplib import FTP
+
+# Fetch Data from Alfahosting Server
+ftp = FTP('alfa3049.alfahosting-server.de')  # you need to put in your correct ftp domain
+ftp.login('web230', 'KNU8QUre')  # i don't need login info for my ftp
+ftp.cwd('/html/fairjobs/')
+
+with open('data_data_data_full_df_web_gd.csv', 'wb') as fp:
+    ftp.retrbinary('RETR data_data_data_full_df_web_gd.csv', fp.write)
 
 
-# Fetch Data from Google Cloud (GCP)
+    # req = urllib.request.Request(f"sftp://web230%2540alfa3049@alfa3049.sftp.alfahosting.de/html/fairjobs/data_data_data_full_df_web_gd.csv")
+    # response = urllib.request.urlopen(req)
+    # dataset = response.read()
 
-BUCKET_NAME = "wagon-data-672-fechner"
-storage_filename = "data/data_full_df_web_gd.csv"
-#local_filename = "train_1k_downloaded.csv"
-upload_storage_filename = "data/data_full_df_web_gd.csv"
+    # #Upload Data to Heroku
 
-# create credentials file
-google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+    # PGPASSWORD=<your password> psql -h <your heroku host> -U <heroku user> <heroku postgres database name> -c "\copy bank (ifsc, bank_id, branch, address, city, district, state, bank_name) FROM '<local file path location>' CSV HEADER DELIMITER E'\t';"
 
-if not os.path.isfile(google_credentials_file):
-
-    print("write credentials file 🔥" + f"\n- path: {google_credentials_file}")
-
-    # retrieve credentials
-    json_credentials = os.environ["GOOGLE_CREDS"]
-
-    # write credentials
-    with open(google_credentials_file, "w") as file:
-
-        file.write(json_credentials)
-
-else:
-
-    print("credentials file already exists 🎉")
+    # # Fetch Data from Google Cloud (GCP)
 
 
 def get_data():
 
-    #os.environ[
-    #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
-    # webpage = url
-    # soup = BeautifulSoup(webpage, "lxml")
-
-    # title = soup.find("meta", proterty="og:title")
-
-    return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/data_data_full_df_web_gd.csv",
-        converters={
-            'masc_words_list': eval,
-            'fem_words_list': eval,
-            'list_for_annotation': eval
-        })
+    return pd.read_csv('data_data_data_full_df_web_gd.csv',
+                       converters={
+                           'masc_words_list': eval,
+                           'fem_words_list': eval,
+                           'list_for_annotation': eval
+                       })
 
 
 def app():
@@ -123,7 +110,7 @@ def app():
             10,
             help="looks for occurences of the words 'support', 'collaboration', 'team', 'value', 'culture' and similar words in the job description"
         )
-        inclusivity = st.slider('inclusion', 1, 10, help="looks for occurences of the words 'transparent', 'fair', 'inclusive', 'equal' and similar words in the job description")
+        inclusivity = st.slider('inclusivity', 1, 10, help="looks for occurences of the words 'transparent', 'fair', 'inclusive', 'equal' and similar words in the job description")
         flexibility = st.slider('flexibility',
                                     1,
                                     10,
@@ -163,7 +150,7 @@ def app():
         ### SEARCH ENGINE ###
 
         #Import monster job_database to access job_offers
-        #job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
+        #job_database = pd.read_csv('data_data_data_full_df_web_gd.csv')
         job_database = get_data()
 
         #Clean job_title column
