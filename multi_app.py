@@ -8,7 +8,7 @@ import streamlit.components.v1 as components
 #import fairjobs_web_server
 
 PAGES = {
-    "problem": problem_page,
+    "problems": problem_page,
     #"solution": fairjobs_web,
     "solution": fairjobs_web,
     "technology": Gender_text_decoder,
