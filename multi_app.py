@@ -10,7 +10,7 @@ import streamlit.components.v1 as components
 PAGES = {
     "problem": problem_page,
     #"solution": fairjobs_web,
-    "solution": fairjobs_web_server,
+    "solution": fairjobs_web,
     "technology": Gender_text_decoder,
     "team": gender_picture_decoder,
     #"personalizer": Personalizer
