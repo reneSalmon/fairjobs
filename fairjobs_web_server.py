@@ -9,28 +9,28 @@ from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
 import streamlit.components.v1 as components
-import urllib.request
 import urllib.request as req
 from ftplib import FTP
+import server_login
 
 # Fetch Data from Alfahosting Server
-ftp = FTP('alfa3049.alfahosting-server.de')  # you need to put in your correct ftp domain
-ftp.login('web230', 'KNU8QUre')  # i don't need login info for my ftp
-ftp.cwd('/html/fairjobs/')
+# ftp = FTP('alfa3049.alfahosting-server.de')  # you need to put in your correct ftp domain
+# ftp.login('web230', 'KNU8QUre')  # i don't need login info for my ftp
+# ftp.cwd('/html/fairjobs/')
 
-with open('data_data_data_full_df_web_gd.csv', 'wb') as fp:
-    ftp.retrbinary('RETR data_data_data_full_df_web_gd.csv', fp.write)
+# with open('data_data_data_full_df_web_gd.csv', 'wb') as fp:
+#     ftp.retrbinary('RETR data_data_data_full_df_web_gd.csv', fp.write)
 
 
     # req = urllib.request.Request(f"sftp://web230%2540alfa3049@alfa3049.sftp.alfahosting.de/html/fairjobs/data_data_data_full_df_web_gd.csv")
     # response = urllib.request.urlopen(req)
     # dataset = response.read()
 
-    # #Upload Data to Heroku
+    #Upload Data to Heroku
 
-    # PGPASSWORD=<your password> psql -h <your heroku host> -U <heroku user> <heroku postgres database name> -c "\copy bank (ifsc, bank_id, branch, address, city, district, state, bank_name) FROM '<local file path location>' CSV HEADER DELIMITER E'\t';"
+    #PGPASSWORD=<your password> psql -h <your heroku host> -U <heroku user> <heroku postgres database name> -c "\copy bank (ifsc, bank_id, branch, address, city, district, state, bank_name) FROM '<local file path location>' CSV HEADER DELIMITER E'\t';"
 
-    # # Fetch Data from Google Cloud (GCP)
+    # Fetch Data from Google Cloud (GCP)
 
 
 def get_data():
