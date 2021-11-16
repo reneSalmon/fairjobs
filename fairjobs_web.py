@@ -12,8 +12,8 @@ import streamlit.components.v1 as components
 
 
 # Fetch Data from Google Cloud (GCP)
-
-BUCKET_NAME = "wagon-data-672-fechner"
+#BUCKET_NAME = "wagon-data-672-fechner"
+BUCKET_NAME = "fairjobs_data"
 storage_filename = "data/data_full_df_web_gd.csv"
 #local_filename = "train_1k_downloaded.csv"
 upload_storage_filename = "data/data_full_df_web_gd.csv"
