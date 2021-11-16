@@ -14,9 +14,13 @@ import streamlit.components.v1 as components
 # Fetch Data from Google Cloud (GCP)
 #BUCKET_NAME = "wagon-data-672-fechner"
 BUCKET_NAME = "fairjobs_data"
-storage_filename = "data/data_full_df_web_gd.csv"
+#storage_filename = "data/data_full_df_web_gd.csv"
+storage_filename = "data.csv"
+#upload_storage_filename = "data/data_full_df_web_gd.csv"
+upload_storage_filename = "data.csv"
+
+
 #local_filename = "train_1k_downloaded.csv"
-upload_storage_filename = "data/data_full_df_web_gd.csv"
 
 # create credentials file
 google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
@@ -48,7 +52,8 @@ def get_data():
     # title = soup.find("meta", proterty="og:title")
 
     return pd.read_csv(
-        f"gs://wagon-data-672-fechner/data/data_data_full_df_web_gd.csv",
+        #f"gs://wagon-data-672-fechner/data/data_data_full_df_web_gd.csv",
+        f"gs://fairjobs_data/data.csv",
         converters={
             'masc_words_list': eval,
             'fem_words_list': eval,
