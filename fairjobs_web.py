@@ -5,19 +5,17 @@ import re
 import string
 import requests
 from PIL import Image
+import nltk; nltk.download('punkt')
 from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
 import streamlit.components.v1 as components
+from google.cloud import storage
 
-
-# Fetch Data from Google Cloud (GCP)
+#OLD
 #BUCKET_NAME = "wagon-data-672-fechner"
-BUCKET_NAME = "fairjobs_data"
 #storage_filename = "data/data_full_df_web_gd.csv"
-storage_filename = "data.csv"
 #upload_storage_filename = "data/data_full_df_web_gd.csv"
-upload_storage_filename = "data.csv"
 
 
 #local_filename = "train_1k_downloaded.csv"
@@ -42,7 +40,7 @@ else:
     print("credentials file already exists 🎉")
 
 
-def get_data():
+#def get_data():
 
     #os.environ[
     #"GOOGLE_APPLICATION_CREDENTIALS"] = '/Users/renesalmon/code/reneSalmon/fairjobs-324510-bbb3c4c828a9.json'
@@ -51,14 +49,35 @@ def get_data():
 
     # title = soup.find("meta", proterty="og:title")
 
-    return pd.read_csv(
-        #f"gs://wagon-data-672-fechner/data/data_data_full_df_web_gd.csv",
-        f"gs://fairjobs_data/data.csv",
-        converters={
-            'masc_words_list': eval,
-            'fem_words_list': eval,
-            'list_for_annotation': eval
-        })
+    # Function to fetch data from GCP Storage
+
+
+def get_data(bucket_name, file_name):
+    client = storage.Client()
+    bucket = client.get_bucket(bucket_name)
+    blob = bucket.blob(file_name)
+    data = pd.read_csv(blob.open('rb'),sep=";", converters={
+                'masc_words_list': eval,
+                'fem_words_list': eval,
+                'list_for_annotation': eval})
+    return data
+
+# Fetching the data
+bucket_name = 'fairjobsdata'
+file_name = 'data_data_data_full_df_web_gd.csv'
+data = get_data(bucket_name, file_name)
+
+    #GCP
+       # f"gs://fairjobs_data/data.csv",
+       #f("gs://fairjobsdata/data_data_data_full_df_web_gd.csv",
+    #return pd.read_csv("/Users/renesalmon/code/reneSalmon/fairjobs/raw_data/data_df_all_3108-20.csv")
+
+    #return pd.read_csv("/Users/renesalmon/Desktop/data_data_data_full_df_web_gd.csv",
+                      # sep=";",
+                       #converters={
+                        #   'masc_words_list': eval,
+                         #  'fem_words_list': eval,
+                          # 'list_for_annotation': eval})
 
 
 def app():
@@ -169,7 +188,7 @@ def app():
 
         #Import monster job_database to access job_offers
         #job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
-        job_database = get_data()
+        job_database = get_data(bucket_name, file_name)
 
         #Clean job_title column
         job_title = job_database['job_title']
