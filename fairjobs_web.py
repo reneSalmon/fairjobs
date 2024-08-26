@@ -255,7 +255,7 @@ def app():
         #                                         flexibility*df_filtered["flexibility"].apply(lambda x: 1 if x=="Good" else 0)+ \
         #                                         personal_development*df_filtered["personal development"].apply(lambda x: 1 if x=="Good" else 0)) / (company_culture+inclusion+flexiblity+personal_development) ,2 )
 
-        df_filtered.loc["Relevance Score"]= round((company_culture*df_filtered["company culture"] + \
+        df_filtered["Relevance Score"]= round((company_culture*df_filtered["company culture"] + \
                                             inclusivity*df_filtered["inclusion"] + \
                                             flexibility*df_filtered["flexibility"]+ \
                                             personal_development*df_filtered["personal development"]) / (company_culture+inclusivity+flexibility+personal_development) ,0)
