@@ -302,22 +302,17 @@ def app():
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left[0:10].iterrows():
-
-            container = st.container()
-            # Swap the order of columns to place thumbs next to job title
-            col2, col1 = container.columns(2)
-
-            with col1:
-                expander = st.expander(
+            expander = st.expander(
                 label=
                 f"{row['job_title']} at {row['company_name']}")
-            with col2:
-                # Thumbs
-                selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
-                if selected is not None:
-                    st.markdown(f"You selected: {sentiment_mapping[selected]}")
+            # st.write(
+            #     f"gender-tone: {row['gender']}"
+            # )
+            # st.write(
+            #     f"personal matching {row['Relevance Score']}%"
+            # )
 
-            st.write(annotated_text(*row['list_for_annotation']))
+
 
             with expander:
                 #st.markdown("---")
@@ -337,16 +332,29 @@ def app():
                 col7.metric(label='personal development',
                             value=row['personal development'])
 
-                st.write(f"city: {row['loc']}")
+                #st.write(f"city: {row['loc']}")
+
+                container = st.container()
+
+                col1, col2 = container.columns(2)
+
+                with col1:
+                    st.write(f"city: {row['loc']}")
+
+                with col2:
+                    # Thumbs
+                    selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
+                    if selected is not None:
+                        st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
                 ##Feedback widget with unique key
 
                 #Thumbs
-                # selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
-                # if selected is not None:
-                #     st.markdown(f"You selected: {sentiment_mapping[selected]}")
+                selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
+                if selected is not None:
+                    st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
