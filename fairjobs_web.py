@@ -58,20 +58,20 @@ from st_files_connection import FilesConnection
 conn = st.connection('gcs', type=FilesConnection)
 df = conn.read("fairjobsdata/data_data_data_full_df_web_gd.csv", input_format="csv", ttl=600, sep=";")
 
-def get_data(bucket_name, file_name):
-    client = storage.Client()
-    bucket = client.get_bucket(bucket_name)
-    blob = bucket.blob(file_name)
-    data = pd.read_csv(blob.open('rb'),sep=";", converters={
-                'masc_words_list': eval,
-                'fem_words_list': eval,
-                'list_for_annotation': eval})
-    return data
+# def get_data(bucket_name, file_name):
+#     client = storage.Client()
+#     bucket = client.get_bucket(bucket_name)
+#     blob = bucket.blob(file_name)
+#     data = pd.read_csv(blob.open('rb'),sep=";", converters={
+#                 'masc_words_list': eval,
+#                 'fem_words_list': eval,
+#                 'list_for_annotation': eval})
+#     return data
 
-# Fetching the data
-bucket_name = 'fairjobsdata'
-file_name = 'data_data_data_full_df_web_gd.csv'
-data = get_data(bucket_name, file_name)
+# # Fetching the data
+# bucket_name = 'fairjobsdata'
+# file_name = 'data_data_data_full_df_web_gd.csv'
+# data = get_data(bucket_name, file_name)
 
     #GCP
        # f"gs://fairjobs_data/data.csv",
