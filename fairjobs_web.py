@@ -312,12 +312,7 @@ def app():
             #     f"personal matching {row['Relevance Score']}%"
             # )
 
-            # Feedback widget with unique key
 
-            st.markdown(""" <style> .block-container {padding-top: 200px !important;} </style> """, unsafe_allow_html=True)
-            selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
-            if selected is not None:
-                st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
             with expander:
                 #st.markdown("---")
@@ -338,6 +333,21 @@ def app():
                             value=row['personal development'])
 
                 st.write(f"city: {row['loc']}")
+
+                ##Feedback widget with unique key
+                #Position
+                st.markdown("""
+                <style>
+                .stFeedbackContainer {
+                    margin-left: 2000px;  // Adjust the value as needed
+                }
+                </style>
+                """, unsafe_allow_html=True)
+
+                #Thumbs
+                selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
+                if selected is not None:
+                    st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
