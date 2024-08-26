@@ -11,6 +11,8 @@ from annotated_text import annotated_text
 import os
 import streamlit.components.v1 as components
 from google.cloud import storage
+from st_files_connection import FilesConnection
+
 
 #OLD
 #BUCKET_NAME = "wagon-data-672-fechner"
@@ -21,23 +23,23 @@ from google.cloud import storage
 #local_filename = "train_1k_downloaded.csv"
 
 # create credentials file
-google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+#google_credentials_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
 
-if not os.path.isfile(google_credentials_file):
+#if not os.path.isfile(google_credentials_file):
 
-    print("write credentials file 🔥" + f"\n- path: {google_credentials_file}")
+#    print("write credentials file 🔥" + f"\n- path: {google_credentials_file}")
 
     # retrieve credentials
-    json_credentials = os.environ["GOOGLE_CREDS"]
+#    json_credentials = os.environ["GOOGLE_CREDS"]
 
     # write credentials
-    with open(google_credentials_file, "w") as file:
+#    with open(google_credentials_file, "w") as file:
 
-        file.write(json_credentials)
+ #       file.write(json_credentials)
 
-else:
+#else:
 
-    print("credentials file already exists 🎉")
+#    print("credentials file already exists 🎉")
 
 
 #def get_data():
@@ -51,6 +53,14 @@ else:
 
     # Function to fetch data from GCP Storage
 
+# Create connection object and retrieve file contents.
+# Specify input format is a csv and to cache the result for 600 seconds.
+conn = st.connection('gcs', type=FilesConnection)
+df = conn.read("fairjobsdata/data_data_data_full_df_web_gd.csv", input_format="csv", ttl=600)
+
+# Print results.
+for row in df.itertuples():
+    st.write(f"{row.Owner} has a :{row.Pet}:")
 
 def get_data(bucket_name, file_name):
     client = storage.Client()
