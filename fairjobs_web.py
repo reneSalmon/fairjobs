@@ -307,17 +307,15 @@ def app():
             # Swap the order of columns to place thumbs next to job title
             col2, col1 = container.columns(2)
 
+            with col1:
+                expander = st.expander(
+                label=
+                f"{row['job_title']} at {row['company_name']}")
             with col2:
                 # Thumbs
                 selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
                 if selected is not None:
                     st.markdown(f"You selected: {sentiment_mapping[selected]}")
-
-            with col1:
-                expander = st.expander(
-                label=
-                f"{row['job_title']} at {row['company_name']}")
-
 
             st.write(annotated_text(*row['list_for_annotation']))
 
