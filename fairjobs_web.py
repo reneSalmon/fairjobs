@@ -13,7 +13,6 @@ import streamlit.components.v1 as components
 from google.cloud import storage
 from st_files_connection import FilesConnection
 
-sentiment_mapping = [":material/thumb_down:", ":material/thumb_up:"]
 
 #OLD
 #BUCKET_NAME = "wagon-data-672-fechner"
@@ -334,6 +333,9 @@ def app():
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
-
-
+                #Feedback Feature
+                sentiment_mapping = [":material/thumb_down:", ":material/thumb_up:"]
+                selected = st.feedback("thumbs")
+                if selected is not None:
+                    st.markdown(f"You selected: {sentiment_mapping[selected]}")
 #st.write("---")
