@@ -58,10 +58,6 @@ from st_files_connection import FilesConnection
 conn = st.connection('gcs', type=FilesConnection)
 df = conn.read("fairjobsdata/data_data_data_full_df_web_gd.csv", input_format="csv", ttl=600, sep=";")
 
-# Print results.
-for row in df.itertuples():
-    st.write(f"{row.Owner} has a :{row.Pet}:")
-
 def get_data(bucket_name, file_name):
     client = storage.Client()
     bucket = client.get_bucket(bucket_name)
