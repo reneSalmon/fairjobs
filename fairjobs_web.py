@@ -65,10 +65,6 @@ def get_data():
     data = df
     return data
 
-# Fetching the data
-bucket_name = 'fairjobsdata'
-file_name = 'data_data_data_full_df_web_gd.csv'
-data = get_data(bucket_name, file_name)
 
     #GCP
        # f"gs://fairjobs_data/data.csv",
@@ -191,7 +187,7 @@ def app():
 
         #Import monster job_database to access job_offers
         #job_database = pd.read_csv('raw_data/data_df_all_3108-20.csv')
-        job_database = get_data(bucket_name, file_name)
+        job_database = get_data()
 
         #Clean job_title column
         job_title = job_database['job_title']
