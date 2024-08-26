@@ -332,22 +332,7 @@ def app():
                 col7.metric(label='personal development',
                             value=row['personal development'])
 
-                #st.write(f"city: {row['loc']}")
-
-                container = st.container()
-
-                col1, col2 = container.columns(2)
-
-                with col1:
-                    st.write(f"city: {row['loc']}")
-
-                with col2:
-                    # Thumbs
-                    selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
-                    if selected is not None:
-                        st.markdown(f"You selected: {sentiment_mapping[selected]}")
-
-                st.write(annotated_text(*row['list_for_annotation']))
+                st.write(f"city: {row['loc']}")
 
                 ##Feedback widget with unique key
 
