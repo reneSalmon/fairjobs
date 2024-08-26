@@ -56,7 +56,7 @@ from st_files_connection import FilesConnection
 # Create connection object and retrieve file contents.
 # Specify input format is a csv and to cache the result for 600 seconds.
 conn = st.connection('gcs', type=FilesConnection)
-df = conn.read("fairjobsdata/data_data_data_full_df_web_gd.csv", input_format="csv", ttl=600)
+df = conn.read("fairjobsdata/data_data_data_full_df_web_gd.csv", input_format="csv", ttl=600, sep=";")
 
 # Print results.
 for row in df.itertuples():
