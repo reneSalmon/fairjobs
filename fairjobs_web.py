@@ -311,9 +311,11 @@ def app():
             # st.write(
             #     f"personal matching {row['Relevance Score']}%"
             # )
+
             # Feedback widget with unique key
 
-            selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
+            st.markdown(""" <style> .block-container {padding-top: 20px !important;} </style> """, unsafe_allow_html=True)
+            selected = st.feedback("faces", key=f"feedback_{index}_{row['job_title']}")
             if selected is not None:
                 st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
