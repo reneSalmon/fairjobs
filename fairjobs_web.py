@@ -302,9 +302,6 @@ def app():
         #annotated_job_describtions = List_for_annotation)
 
         for index, row in personal_ranked_df_left[0:10].iterrows():
-            expander = st.expander(
-                label=
-                f"{row['job_title']} at {row['company_name']}")
 
             container = st.container()
             # Swap the order of columns to place thumbs next to job title
@@ -317,7 +314,10 @@ def app():
                     st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
             with col1:
-                st.write(f"city: {row['loc']}")
+                expander = st.expander(
+                label=
+                f"{row['job_title']} at {row['company_name']}")
+
 
             st.write(annotated_text(*row['list_for_annotation']))
 
