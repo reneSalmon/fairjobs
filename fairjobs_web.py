@@ -14,6 +14,8 @@ from google.cloud import storage
 from st_files_connection import FilesConnection
 
 
+sentiment_mapping = [":material/thumb_down:", ":material/thumb_up:"]
+
 #OLD
 #BUCKET_NAME = "wagon-data-672-fechner"
 #storage_filename = "data/data_full_df_web_gd.csv"
@@ -253,7 +255,7 @@ def app():
         #                                         flexibility*df_filtered["flexibility"].apply(lambda x: 1 if x=="Good" else 0)+ \
         #                                         personal_development*df_filtered["personal development"].apply(lambda x: 1 if x=="Good" else 0)) / (company_culture+inclusion+flexiblity+personal_development) ,2 )
 
-        df_filtered["Relevance Score"]= round((company_culture*df_filtered["company culture"] + \
+        df_filtered.loc["Relevance Score"]= round((company_culture*df_filtered["company culture"] + \
                                             inclusivity*df_filtered["inclusion"] + \
                                             flexibility*df_filtered["flexibility"]+ \
                                             personal_development*df_filtered["personal development"]) / (company_culture+inclusivity+flexibility+personal_development) ,0)
@@ -309,7 +311,11 @@ def app():
             # st.write(
             #     f"personal matching {row['Relevance Score']}%"
             # )
+            # Feedback widget with unique key
 
+            selected = st.feedback("thumbs", key=f"feedback_{index}_{row['job_title']}")
+            if selected is not None:
+                st.markdown(f"You selected: {sentiment_mapping[selected]}")
 
             with expander:
                 #st.markdown("---")
@@ -333,9 +339,4 @@ def app():
 
                 st.write(annotated_text(*row['list_for_annotation']))
 
-                #Feedback Feature
-                sentiment_mapping = [":material/thumb_down:", ":material/thumb_up:"]
-                selected = st.feedback("thumbs")
-                if selected is not None:
-                    st.markdown(f"You selected: {sentiment_mapping[selected]}")
 #st.write("---")
