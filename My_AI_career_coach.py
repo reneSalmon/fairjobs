@@ -20,7 +20,11 @@ def app():
         st.session_state.chat_history = []
 
     st.title("Hi, I am Carry your career coach")
-    st.write("How can I help you with your career?")
+
+    #Insert video
+    video_file = open("https://storage.cloud.google.com/fairjobsdata/Fairjobs%20Carry%20Intro%20Video.mp4", "rb")
+    video_bytes = video_file.read()
+    st.video(video_bytes)
 
     #display chat history
     for message in st.session_state.chat_history:
