@@ -19,7 +19,8 @@ def app():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    st.title("AI career chatbot powered by LLAMA 3.1")
+    st.title("Hi, I am Carry your career coach")
+    st.write("How can I help you with your career?")
 
     #display chat history
     for message in st.session_state.chat_history:
