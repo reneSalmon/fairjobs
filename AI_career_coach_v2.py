@@ -32,20 +32,23 @@ if user_prompt:
     st.chat_message("user").markdown(user_prompt)
     st.session_state.chat_history.append({"role": "user", "content": user_prompt})
 
-    #sens user's message to the LLM and get a response
+    # Function to get response from LLM, decorated with @st.cache_data
+    @st.cache_data(ttl=3600)  # Cache for 1 hour
+    def get_llm_response(messages):
+        response = client.chat.completions.create(
+            model="llama-3.1-8b-instant",
+            messages=messages
+        )
+        return response.choices[0].message.content
+
     messages = [
         {"role": "system", "content": "You are a helpful assistant"},
         *st.session_state.chat_history
     ]
 
-    response = client.chat.completions.create(
-        model ="llama-3.1-8b-instant",
-        messages=messages
-    )
-
-    assistant_response = response.choices[0].message.content
+    assistant_response = get_llm_response(tuple(messages))  # Convert to tuple for caching
     st.session_state.chat_history.append({"role": "assistant", "content": assistant_response})
 
-    #display LLM's response
+    # Display LLM's response
     with st.chat_message("assistant"):
         st.markdown(assistant_response)
