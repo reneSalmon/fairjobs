@@ -8,3 +8,7 @@ raw_data/
 .env
 
 /secrets.toml
+AI_career_coach_v4.py
+Llama_test.py
+AI_career_coach v2.py
+AI_career_coach_v3.py

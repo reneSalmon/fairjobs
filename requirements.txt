@@ -7,6 +7,8 @@ wheel>=0.29
 # data science
 numpy
 pandas
+torch
+
 
 
 # tests/linter
@@ -22,6 +24,7 @@ google-cloud-storage
 mlflow
 s3fs
 st-files-connection
+groq
 
 # utilities
 six>=1.14
@@ -40,6 +43,12 @@ gensim
 unidecode
 nltk
 Spacy
+Transformers
+LangChain
+LangChain-cerebras
+hugchat
+streamlit-chat
+streamlit-extras
 
 #Dataframe Website Search Engine
 pyarrow
