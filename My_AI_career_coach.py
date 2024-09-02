@@ -7,6 +7,9 @@ from google.cloud import storage
 from st_files_connection import FilesConnection
 #from streamlit_player import st_player
 
+
+
+
 # Caching imported libraries to avoid repeated imports and speed up the app
 @st.cache_resource
 def get_storage_client():
@@ -17,14 +20,14 @@ def get_groq_client(api_key):
     os.environ["GROQ_API_KEY"] = api_key
     return Groq()
 
-def read_file(bucket_name, blob_name):
-    # Get storage client and read file content
-    storage_client = get_storage_client()
-    bucket = storage_client.bucket(bucket_name)
-    blob = bucket.blob(blob_name)
-    with blob.open("rb") as f:
-        file_content = f.read()
-    return file_content
+# def read_file(bucket_name, blob_name):
+#     # Get storage client and read file content
+#     storage_client = get_storage_client()
+#     bucket = storage_client.bucket(bucket_name)
+#     blob = bucket.blob(blob_name)
+#     with blob.open("rb") as f:
+#         file_content = f.read()
+#     return file_content
 
 def app():
     # Set up working directory and load configuration
@@ -40,14 +43,14 @@ def app():
         st.session_state.chat_history = []
 
     # Cache video loading to avoid repeated fetching
-    @st.cache_data
-    def load_video():
-        bucket_name = "fairjobsdata"
-        blob_name = "carry.mp4"
-        return read_file(bucket_name, blob_name)
+    # @st.cache_data
+    # def load_video():
+    #     bucket_name = "fairjobsdata"
+    #     blob_name = "carry.mp4"
+    #     return read_file(bucket_name, blob_name)
 
-    video_bytes = load_video()
-    st.video(video_bytes)
+    # video_bytes = load_video()
+    #st.video("https://fairjobs.streamlit.app/fairjobsdata/carry.mp4")
 
     # Display chat history
     for message in st.session_state.chat_history:
