@@ -5,6 +5,7 @@ import json
 from groq import Groq
 from google.cloud import storage
 from st_files_connection import FilesConnection
+from streamlit_player import st_player
 
 def app():
     #working directory
@@ -21,24 +22,27 @@ def app():
     if "chat_history" not in st.session_state:
         st.session_state.chat_history = []
 
-    @st.cache_data
-    # Insert video
-    def read_file(bucket_name, blob_name):
-        storage_client = storage.Client()
-        bucket = storage_client.bucket(bucket_name)
-        blob = bucket.blob(blob_name)
-        with blob.open("rb") as f:
-            file_content = f.read()
-        return file_content
+    #Insert Youtube Video
+    st.write("Hi, I am Carry your AI Career Coach")
+    st_player("https://youtu.be/kQPSEReDux4")
 
-    # Specify the bucket name and the file name
-    bucket_name = "fairjobsdata"
-    blob_name = "Fairjobs_Video.mp4"
+    # # Insert video
+    # def read_file(bucket_name, blob_name):
+    #     storage_client = storage.Client()
+    #     bucket = storage_client.bucket(bucket_name)
+    #     blob = bucket.blob(blob_name)
+    #     with blob.open("rb") as f:
+    #         file_content = f.read()
+    #     return file_content
 
-    # Read the file from the bucket
-    video_bytes = read_file(bucket_name, blob_name)
+    # # Specify the bucket name and the file name
+    # bucket_name = "fairjobsdata"
+    # blob_name = "Fairjobs_Video.mp4"
 
-    st.video(video_bytes)
+    # # Read the file from the bucket
+    # video_bytes = read_file(bucket_name, blob_name)
+
+    # st.video(video_bytes)
 
 
     #display chat history

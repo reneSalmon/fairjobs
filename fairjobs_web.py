@@ -5,8 +5,6 @@ import re
 import string
 import requests
 from PIL import Image
-import nltk; nltk.download('punkt')
-from nltk.tokenize import word_tokenize
 from annotated_text import annotated_text
 import os
 import streamlit.components.v1 as components
