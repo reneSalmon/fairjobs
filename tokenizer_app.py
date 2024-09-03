@@ -7,6 +7,44 @@ import math
 pretrained_weights = 'deepset/gbert-large'
 tokenizer = BertTokenizer.from_pretrained(pretrained_weights)
 
+# Function to calculate Gunning-Fog Index
+def calculate_gunning_fog_index(token_list):
+    """Calculates the Gunning-Fog Index of a given text."""
+
+    # Count the number of sentences
+    sentences = text.count('.') + text.count('?') + text.count('!')
+
+    # Count the number of complex words (3 or more syllables)
+    complex_words = 0
+    for word in token_list:
+        if len(word) >= 3 and not word.istitle():
+            complex_words += 1
+
+    # Calculate Gunning-Fog Index
+    fog_index = 0.4 * ((len(token_list) / sentences) + (100 * complex_words / len(token_list)))
+
+    return fog_index
+
+# Function to calculate Shannon entropy
+def calculate_shannon_entropy(text):
+    """Calculates the Shannon entropy of a given text."""
+
+    # Tokenize the text into words
+    tokens = tokenize_text(text)
+
+    # Calculate frequency distribution of words
+    freq_dist = FreqDist(tokens)
+
+    # Calculate probability of each word
+    total_words = len(tokens)
+    probabilities = [freq_dist[word] / total_words for word in freq_dist]
+
+    # Calculate Shannon entropy
+    entropy = -sum([p * math.log2(p) for p in probabilities if p > 0])
+
+    return entropy
+
+
 # Function definition for tokenizing and print output
 def tokenize_text(text):
     # Tokenize the text using GBERT tokenizer
@@ -31,24 +69,6 @@ def tokenize_text(text):
     # Calculate Gunning-Fog Index
     fog_index = calculate_gunning_fog_index(token_list)
     st.write(f"Gunning-Fog Index: {fog_index:.2f}")
-
-# Function to calculate Gunning-Fog Index
-def calculate_gunning_fog_index(token_list):
-    """Calculates the Gunning-Fog Index of a given text."""
-
-    # Count the number of sentences
-    sentences = text.count('.') + text.count('?') + text.count('!')
-
-    # Count the number of complex words (3 or more syllables)
-    complex_words = 0
-    for word in token_list:
-        if len(word) >= 3 and not word.istitle():
-            complex_words += 1
-
-    # Calculate Gunning-Fog Index
-    fog_index = 0.4 * ((len(token_list) / sentences) + (100 * complex_words / len(token_list)))
-
-    return fog_index
 
 # Streamlit app layout
 st.title('Text Tokenizer using GBERT')
