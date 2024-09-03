@@ -31,7 +31,7 @@ st.write("Please enter text to tokenize:")
 input_text = st.text_area('Enter your text here', value='')
 
 # Tokenize and display output when button is clicked
-if st.button('Analysiere die Text'):
+if st.button('Text tokenisieren'):
     if input_text.strip():  # Only tokenize if there is some input
         tokenize_text(input_text)
     else:
