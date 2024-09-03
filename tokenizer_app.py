@@ -30,10 +30,10 @@ def calculate_shannon_entropy(token_list):
     """Calculates the Shannon entropy of a given text."""
 
     # Calculate frequency distribution of words
-    freq_dist = FreqDist(tokens)
+    freq_dist = FreqDist(token_list)
 
     # Calculate probability of each word
-    total_words = len(tokens)
+    total_words = len(token_list)
     probabilities = [freq_dist[word] / total_words for word in freq_dist]
 
     # Calculate Shannon entropy
