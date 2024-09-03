@@ -28,7 +28,7 @@ st.title('Text Tokenizer using GBERT')
 st.write("Please enter text to tokenize:")
 
 # Text input for user to enter text (initially empty)
-input_text = st.text_area('Enter your text here', value='')
+input_text = st.text_area('Enter your text here', value='', height=300)
 
 # Tokenize and display output when button is clicked
 if st.button('Text tokenisieren'):
