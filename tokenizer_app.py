@@ -64,7 +64,7 @@ def tokenize_text(text):
     st.write(f"Shannon Entropy: {entropy:.4f}")
 
     # Calculate Gunning-Fog Index
-    fog_index = calculate_gunning_fog_index(token_list)
+    fog_index = calculate_gunning_fog_index(text, token_list)
     st.write(f"Gunning-Fog Index: {fog_index:.2f}")
 
 # Streamlit app layout
