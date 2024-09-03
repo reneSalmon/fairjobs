@@ -26,11 +26,11 @@ def calculate_gunning_fog_index(token_list):
     return fog_index
 
 # Function to calculate Shannon entropy
-def calculate_shannon_entropy(text):
+def calculate_shannon_entropy(token_list):
     """Calculates the Shannon entropy of a given text."""
 
     # Tokenize the text into words
-    tokens = tokenize_text(text)
+    tokens = tokenize_text(token_list)
 
     # Calculate frequency distribution of words
     freq_dist = FreqDist(tokens)
