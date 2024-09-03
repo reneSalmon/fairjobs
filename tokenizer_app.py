@@ -8,7 +8,7 @@ pretrained_weights = 'deepset/gbert-large'
 tokenizer = BertTokenizer.from_pretrained(pretrained_weights)
 
 # Function to calculate Gunning-Fog Index
-def calculate_gunning_fog_index(token_list):
+def calculate_gunning_fog_index(text, token_list):
     """Calculates the Gunning-Fog Index of a given text."""
 
     # Count the number of sentences
